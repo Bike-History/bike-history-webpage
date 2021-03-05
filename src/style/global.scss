@@ -1,0 +1,115 @@
+@import "./theme.scss";
+
+button {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+
+  &:visited {
+    color: inherit;
+  }
+
+  &:link {
+    color: inherit;
+  }
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Oswald', sans-serif; //'Roboto';//
+  width: 100%;
+  font-family: $g-font;
+}
+
+input {
+  border: none;
+  background-color: transparent;
+  outline: none;
+}
+
+h1 {
+  font-size: $font-lg;
+  margin: $space-md 0;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+ul > li {
+    list-style-type: none;
+}
+
+button {
+  background-color: transparent;
+  border: none;
+}
+
+.flipped-v {
+  transform: rotate(180deg);
+}
+
+.row {
+  display: flex;
+
+  &.a-c {
+    align-items: center;
+  }
+
+  &.j-c {
+    justify-content: center;
+  }
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+
+  &.a-c {
+    align-items: center;
+  }
+
+  &.j-c {
+    justify-content: center;
+  }
+}
+
+@each $size, $i in $g-sizes {
+  .pd-#{$size}{
+      padding: $i;
+  }
+  .mg-#{$size}{
+    margin: $i;
+  }
+}
+
+@each $size, $i in $g-sizes {
+  .pd-l-#{$size}{
+      padding-left: $i;
+  }
+  .mg-l-#{$size}{
+    margin-left: $i;
+  }
+}
+
+@each $size, $i in $g-sizes {
+  .pd-r-#{$size}{
+      padding-right: $i;
+  }
+  .mg-r-#{$size}{
+    margin-right: $i;
+  }
+}
+
+@each $size, $i in $g-sizes {
+  .pd-t-#{$size}{
+      padding-top: $i;
+  }
+  .mg-t-#{$size}{
+    margin-top: $i;
+  }
+}

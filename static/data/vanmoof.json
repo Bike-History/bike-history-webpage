@@ -1,0 +1,34 @@
+{
+  "brand": {
+    "name": "Vanmoof",
+    "logo": "vanmoof.svg",
+    "description": "",
+    "origin": "NL",
+    "start": 1230764400,
+    "end": "now"
+  },
+  "bikes": [
+    {
+      "name": "S3",
+      "description": "",
+      "type": "E-CITY-BIKE",
+      "start": 1587420000,
+      "end": "now",
+      "specs": {
+        "break": "Vanmoof hydraulic disc break",
+        "motor": "Bafang front-weel motor 250W (500W)",
+        "battery": "504Wh",
+        "gear": "automatic 4 speed",
+        "tire": "Schwalbe Big Ben",
+        "weight": 19,
+        "range": 150,
+        "price": "1998€",
+        "production": "Thaiwan"
+      },
+      "colors": [
+        "#ADBDC7",
+        "#36363A"
+      ]
+    }
+  ]
+}
