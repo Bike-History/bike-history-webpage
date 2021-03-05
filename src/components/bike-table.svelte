@@ -5,6 +5,7 @@
   import { onMount } from "svelte";
   import moment from 'moment';
   import { serverURL } from '../config';
+  import { searchInput } from "../store";
 
   let bikeData = [];
   let processedData = [];
@@ -26,21 +27,10 @@
         bikesRes.json()
       ).then((data) => {
         bikeData = [...bikeData, ...data];
-        updatePeriod({detail: { values: [selectedStartPeriod, selectedEndPeriod]}})
+        updatePeriod({detail: { values: [selectedStartPeriod, selectedEndPeriod]}});
       });
     });
   });
-
-  const updatePeriod = (e) =>{
-    selectedStartPeriod = e.detail.values[0];
-    selectedEndPeriod = e.detail.values[1];
-
-    processedData = bikeData.filter((bike) => !(
-      moment(bike.end).year() < selectedStartPeriod ||
-      moment(bike.start).year() > selectedEndPeriod
-    ));
-    changeOrder(orderItem, increasing);
-  }
 
   const changeOrder = (orderItem, increasing) => {
     orderItem = orderItem;
@@ -64,8 +54,27 @@
           : b.brand.name.localeCompare(a.brand.name)
       });
     }
-
   }
+
+  const updatePeriod = (e) =>{
+    selectedStartPeriod = e.detail.values[0];
+    selectedEndPeriod = e.detail.values[1];
+
+    processedData = bikeData.filter((bike) => !(
+      moment(bike.end).year() < selectedStartPeriod ||
+      moment(bike.start).year() > selectedEndPeriod
+    ));
+    changeOrder(orderItem, increasing);
+  }
+
+  searchInput.subscribe((value) => {
+    updatePeriod({detail: { values: [selectedStartPeriod, selectedEndPeriod]}});
+    if (value) {
+      processedData = processedData.filter(
+        (bike) => JSON.stringify(bike).toLowerCase().split(value.toLowerCase()).length - 1 > 0,
+      );
+    }
+	});
 </script>
 
 <!-- DOM -->

@@ -1,7 +1,8 @@
+<!-- Script -->
 <script>
   import { goto } from '@sapper/app';
   import { serverURL } from "../config";
-import IScroll from './icons/i-scroll.svelte';
+  import IScroll from './icons/i-scroll.svelte';
 
 
   export let bike;
@@ -12,12 +13,13 @@ import IScroll from './icons/i-scroll.svelte';
   ));
 </script>
 
+<!-- DOM -->
 <div class="row bike-info">
   <button class="close" on:click={() => goto(`/`)}>X</button>
-  <div>
+  <div class="image-preview">
     <img
       class="image"
-      src={`${serverURL}${bike.image}`}
+      src={bike.image ? `${serverURL}${bike.image}`: ''}
       alt="Image missing"
     />
     <div class="row j-c colors">
@@ -29,7 +31,9 @@ import IScroll from './icons/i-scroll.svelte';
   <div class="story">
     <h2>{bike.brand.name} - {bike.name}</h2>
     <p class="description">{bike.description}</p>
-    <a href={bike.brand.link}>To {bike.brand.name}</a>
+    {#if bike.brand.link}
+      <a class="brand-button" href={bike.brand.link}>To {bike.brand.name}</a>
+    {/if}
   </div>
   <div>
     <IScroll />
@@ -72,14 +76,25 @@ import IScroll from './icons/i-scroll.svelte';
     background-color: $c-background-raised;
 		flex-shrink: 0;
 
-    .image {
-      width: 20%;
-      min-width: 350px;
-      max-height: 350px;
-      box-shadow: $bs-md;
-      border-radius: $br-md;
-      margin: $space-md;
-      text-align: center;
+    @media screen and (max-width: $breakpoint) {
+      position: fixed;
+      overflow-y: scroll;
+      flex-direction: column;
+	  }
+
+    .image-preview {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .image {
+        width: 20%;
+        min-width: 350px;
+        max-height: 300px;
+        box-shadow: $bs-md;
+        border-radius: $br-md;
+        margin: $space-md;
+        text-align: center;
+      }
     }
 
     .story {
@@ -92,7 +107,8 @@ import IScroll from './icons/i-scroll.svelte';
       .description {
         flex-grow: 1;
         text-align: left;
-        max-width: 50%;
+        width: 90%;
+        overflow-y: auto;
       }
     }
 
@@ -109,9 +125,21 @@ import IScroll from './icons/i-scroll.svelte';
       -ms-overflow-style: none;  /* IE and Edge */
       scrollbar-width: none;  /* Firefox */
 
+      @media screen and (max-width: $breakpoint) {
+        height: fit-content;
+        flex-shrink: 0;
+      }
+
       &::-webkit-scrollbar {
         display: none;
       }
+    }
+
+    .brand-button {
+      font-size: $space-md;
+      font-weight: bold;
+      padding: $space-md;
+      text-decoration: underline;
     }
 
     .colors {

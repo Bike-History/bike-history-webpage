@@ -40,7 +40,6 @@
 <!-- DOM -->
 <div class="row table-header">
   <div class="sort">
-   
     <div class="row select">
       <div class="select__box">
         <span class="select-title">
@@ -87,6 +86,11 @@
     .sort {
       width: 450px;
     }
+
+    @media screen and (max-width: $breakpoint) {
+      flex-direction: column-reverse;
+      align-items: flex-start;
+	  }
   }
 
   .select-title {
@@ -134,5 +138,9 @@
     --range-float-inactive:  var(--range-handle-inactive); /* inactive floating label background color */
     --range-float:           var(--range-handle-focus); /* floating label background color */
     --range-float-text:      white;
+
+    @media screen and (max-width: $breakpoint) {
+      width: 100%;
+	  }
   }
 </style>

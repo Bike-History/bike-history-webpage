@@ -10,17 +10,19 @@
 </script>
 
 <!-- DOM -->
-<div class="row a-c bike-table-entry" on:click={goto(`/${bike.brand.id}/${bike.name}`)}>
-  <img class="brand-logo table-column" src={`${serverURL}/${bike.brand.logo}`} alt=""/>
-  <div class="spacer" />
-  <span class="table-column">
-    {bike.name}
-  </span>
-  <div class="spacer" />
-  <span class="table-column">
-    {bike.type}
-  </span>
-  <div class="spacer" />
+<div class="bike-table-entry" on:click={goto(`/${bike.brand.id}/${bike.id}`)}>
+  <div class="row a-c basics">
+    <img class="brand-logo table-column" src={`${serverURL}/${bike.brand.logo}`} alt=""/>
+    <div class="spacer" />
+    <span class="table-column">
+      {bike.name}
+    </span>
+    <div class="spacer" />
+    <span class="table-column">
+      {bike.type}
+    </span>
+    <div class="spacer" />
+  </div>
   <div class="timeline">
     <TimeLine
       selectedStartPeriod={selectedStartPeriod}
@@ -37,6 +39,8 @@
 @import "./style/global.scss";
 
 .bike-table-entry {
+  display: flex;
+  align-items: center;
   border-radius: $br-md;
   width: 100%;
   box-sizing: border-box;
@@ -45,21 +49,45 @@
 	background-color: $c-background-raised;
   box-shadow: $bs-md;
 
+  @media screen and (max-width: $breakpoint) {
+    flex-direction: column;
+    height: auto;
+	}
+
+  .basics {
+    height: 100%;
+    @media screen and (max-width: $breakpoint) {
+      width: 100%;
+      border-bottom: 2px solid $c-shaddow;
+      justify-content: space-between;
+	  }
+  }
+
   .table-column {
     width: 150px;
     text-align: center;
+    @media screen and (max-width: $breakpoint) {
+      flex-grow: 1;
+	  }
   }
 
   .timeline {
     flex-grow: 1;
     padding: 0 $space-sm;
     box-sizing: border-box;
+
+    @media screen and (max-width: $breakpoint) {
+      width: 100%;
+      padding-top: $space-md;
+      height: 50px;
+	  }
+
   }
 
   .brand-logo {
     padding: $space-sm;
     box-sizing: border-box;
-    height: $font-lg;
+    height: $space-lg;
   }
 
   .spacer {

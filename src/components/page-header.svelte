@@ -7,7 +7,7 @@
 </script>
 
 <!-- DOM -->
-<div class="row header a-c">
+<div class="header">
   <div class="row a-c">
     <span class="logo">
       <ILogo />
@@ -22,6 +22,8 @@
 <style lang="scss">
   @import "./style/global.scss";
   .header {
+    display: flex;
+    align-items: center;
     width: 100%;
     justify-content: space-between;
     background-color: $c-background-raised;
@@ -29,6 +31,10 @@
     margin: $space-md 0;
     padding: 0 $space-md;
     box-sizing: border-box;
+
+    @media screen and (max-width: $breakpoint) {
+      flex-direction: column;
+    }
   }
   .logo {
     display: flex;

@@ -21,6 +21,12 @@
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
 	}
+
+	html {
+		@media screen and (max-width: $breakpoint) {
+    	font-size: 16px;
+		}
+	}
 	main {
 		display: flex;
 		flex-direction: column;

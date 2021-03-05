@@ -1,13 +1,19 @@
+<!-- Script -->
 <script>
+  import IMagnifier from "./icons/i-magnifier.svelte";
+  import { searchInput } from '../store.js';
 
-import IMagnifier from "./icons/i-magnifier.svelte";
-
+  const searchInputChanged = (e) => {
+    searchInput.update(() => e.target.value)
+  };
 </script>
 
+<!-- DOM -->
 <div class="search row a-c">
   <IMagnifier/>
   <input
     type="text"
+    on:input={searchInputChanged}
     class="search__input"
     placeholder="Seach"
   />
