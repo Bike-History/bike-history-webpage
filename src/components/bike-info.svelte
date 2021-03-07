@@ -4,9 +4,7 @@
   import { serverURL } from "../config";
   import IScroll from './icons/i-scroll.svelte';
 
-
   export let bike;
-
 
   $: specs = Object.keys(bike.specs).map((spec) => (
     {type: spec, value: bike.specs[spec]}
@@ -41,7 +39,7 @@
   <div class="specs">
     {#each specs as spec}
     <div class="spec">
-      <img class="icon" src={`/icons/${spec.type}.svg`}/>
+      <img class="icon" src={`/icons/${spec.type}.svg`} alt={spec.type} />
       <span class="value">{spec.value}</span>
     </div>
     {/each}
