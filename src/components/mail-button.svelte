@@ -72,7 +72,7 @@
     height: $font-lg;
     border-radius: $br-md;
     color: $c-primary-lightest;
-    border: 2px solid $c-shaddow;
+    border: 1px solid $c-shaddow;
 
 
     @media screen and (max-width: $breakpoint) {

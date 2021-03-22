@@ -24,7 +24,7 @@
 	@import "./style/global.scss";
 
   .search {
-    border: 2px solid $c-shaddow;
+    border: 1px solid $c-shaddow;
     border-radius: $br-md;
     padding: $space-sm $space-md;
     color: $c-primary-lightest;

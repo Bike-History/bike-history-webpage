@@ -28,7 +28,6 @@
     justify-content: space-between;
     background-color: $c-background-raised;
     box-shadow: $bs-md;
-    margin: $space-md 0;
     padding: 0 $space-md;
     box-sizing: border-box;
 

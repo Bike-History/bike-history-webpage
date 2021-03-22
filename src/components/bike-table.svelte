@@ -5,7 +5,8 @@
   import { onMount } from "svelte";
   import moment from 'moment';
   import { serverURL } from '../config';
-  import { searchInput } from "../store";
+  import { format, Format, searchInput } from '../store';
+  import BikeGridEntry from "./bike-grid-entry.svelte";
 
   let bikeData = [];
   let processedData = [];
@@ -17,6 +18,7 @@
 
   let orderItem = 'name';
   let increasing = true;
+  let selectedFormat = Format.table;
 
   onMount(async () => {
     const brandsRes = await fetch(`${serverURL}/brands`);
@@ -75,6 +77,10 @@
       );
     }
 	});
+
+  format.subscribe((value) => {
+    selectedFormat = value;
+	});
 </script>
 
 <!-- DOM -->
@@ -88,17 +94,29 @@
       orderCallback={changeOrder}
     />
   </div>
-  <ul class="bike-table__list">
-    {#each processedData as bike}
-      <li class="bike-table__entry">
-        <BikeTableEntry
-          bike={bike}
-          selectedStartPeriod={selectedStartPeriod}
-          selectedEndPeriod={selectedEndPeriod}
-        />
-      </li>
-    {/each}
-  </ul>
+  {#if selectedFormat === Format.list}
+    <ul class="bike-table__list">
+      {#each processedData as bike (bike.id)}
+        <li class="bike-table__entry">
+          <BikeTableEntry
+            bike={bike}
+            selectedStartPeriod={selectedStartPeriod}
+            selectedEndPeriod={selectedEndPeriod}
+          />
+        </li>
+      {/each}
+    </ul>
+  {:else}
+    <div class="bike-table__grid">
+      {#each processedData as bike (bike.id)}
+        <div class="bike-table__grid__element">
+          <BikeGridEntry
+            bike={bike}
+          />
+        </div>
+      {/each}
+    </div>
+  {/if}
 </div>
 
 <!-- Style -->
@@ -125,6 +143,20 @@
 
   &__entry {
     margin: $space_sm 0;
+  }
+  &__grid {
+    flex-grow: 1;
+    overflow-y: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px,auto));
+
+    &__element {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 }
 </style>

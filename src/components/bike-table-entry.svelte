@@ -19,7 +19,7 @@
     </span>
     <div class="spacer" />
     <span class="table-column">
-      {bike.type}
+      {bike.generics.type}
     </span>
     <div class="spacer" />
   </div>
@@ -48,6 +48,7 @@
   cursor: pointer;
 	background-color: $c-background-raised;
   box-shadow: $bs-md;
+  font-weight: bold;
 
   @media screen and (max-width: $breakpoint) {
     flex-direction: column;

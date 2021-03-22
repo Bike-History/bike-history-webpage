@@ -18,7 +18,7 @@
     <img
       class="image"
       src={bike.image ? `${serverURL}${bike.image}`: ''}
-      alt="Image missing"
+      alt="No Bike image available"
     />
     <div class="row j-c colors">
       {#each bike.colors as color}
