@@ -14,12 +14,11 @@
 			console.log(e);
 			return this.redirect(302, '/');
 		}
-
 	}
 </script>
 
 <script>
-	import BikeInfo from "../../components/bike-info.svelte";
+	import BikeInfoOverlay from '../../components/bike-info-overlay.svelte';
 
 	export let bikeData;
 </script>
@@ -28,4 +27,4 @@
 	<title>Bike-History {bikeData.brand.name} - {bikeData.name}</title>
 </svelte:head>
 
-<BikeInfo bike={bikeData}/>
+<BikeInfoOverlay bike={bikeData}/>

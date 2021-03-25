@@ -33,7 +33,7 @@ import ICity from "../icons/i-city.svelte";
   <div class="circle">
     {#if icon === 'city'}
       <ICity />
-    {:else if icon === 'mountain'}
+    {:else if icon === 'montain'}
       <IMountain />
     {:else if icon === 'cargobike'}
       <ICargobike />
