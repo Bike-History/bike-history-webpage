@@ -62,16 +62,17 @@
         <button class={orderIncreasing ? 'order' : 'order--active'} on:click={setOrderDecreasing}><IChevron /></button>
       </div>
     </div>
-
-    <Switch selectedCallback={(value) => view.update(() => value)} selected={view} leftValue={Views.bikes} rightValue={Views.dealers}>
-      <IBike slot="left"/>
-      <IProduction slot="right"/>
-    </Switch>
-
-    <Switch selectedCallback={(value) => format.update(() => value)} selected={format} leftValue={Format.table}  rightValue={Format.list}>
-      <IGrid slot="left"/>
-      <IList slot="right"/>
-    </Switch>
+    <div class="switch-row">
+      <Switch selectedCallback={(value) => view.update(() => value)} selected={view} leftValue={Views.bikes} rightValue={Views.dealers}>
+        <IBike slot="left"/>
+        <IProduction slot="right"/>
+      </Switch>
+  
+      <Switch selectedCallback={(value) => format.update(() => value)} selected={format} leftValue={Format.table}  rightValue={Format.list}>
+        <IGrid slot="left"/>
+        <IList slot="right"/>
+      </Switch>
+    </div>
   </div>
   <div class="slider">
     <RangeSlider
@@ -105,6 +106,12 @@
       align-items: center;
       justify-content: space-between;
       padding-right: $space-md;
+
+      @media screen and (max-width: $breakpoint) {
+        flex-direction: column-reverse;
+        width: 100%;
+        padding-right: 0;
+      }
     }
 
     @media screen and (max-width: $breakpoint) {
@@ -141,6 +148,16 @@
     &--active {
       color: $c-primary;
     }
+  }
+
+  .switch-row {
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+
+    @media screen and (max-width: $breakpoint) {
+      margin: $space-md;
+	  }
   }
 
   .slider {

@@ -3,8 +3,8 @@
   import { goto } from '@sapper/app';
 	import { serverURL } from '../config';
   import { lightOrDark } from '../helpers/color.js';
-import IBike from './icons/i-bike.svelte';
-import IChevron from './icons/i-chevron.svelte';
+  import IBike from './icons/i-bike.svelte';
+  import IChevron from './icons/i-chevron.svelte';
   export let bike;
 
   let overlay;
@@ -65,6 +65,16 @@ import IChevron from './icons/i-chevron.svelte';
     align-items: center;
     justify-content: center;
     z-index: 10;
+
+    @media screen and (max-width: $breakpoint) {
+    	height: auto;
+      padding: $space-slg 0;
+
+      main {
+        height: 100vh;
+        overflow: hidden;
+      }
+		}
   }
 
   .bike-info-container {
@@ -76,6 +86,10 @@ import IChevron from './icons/i-chevron.svelte';
 
   .bike-info-header {
     display: flex;
+    @media screen and (max-width: $breakpoint) {
+    	flex-direction: column;
+      align-items: center;
+		}
 
     &__image {
       flex: 1;
@@ -136,6 +150,11 @@ import IChevron from './icons/i-chevron.svelte';
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(330px,auto));
 
+      @media screen and (max-width: $breakpoint) {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+      }
       &__chip {
         display: flex;
         align-items: center;
@@ -144,6 +163,10 @@ import IChevron from './icons/i-chevron.svelte';
         border-radius: $br-md;
         width: 320px;
         margin: $space-sm;
+
+        @media screen and (max-width: $breakpoint) {
+          width: 90%;
+        }
 
         .icon {
           width: 1.5rem;

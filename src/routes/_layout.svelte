@@ -7,9 +7,9 @@
 
 <!-- DOM -->
 <main class="column a-c">
+	<slot />
 	<PageHeader />
 	<BikeTable />
-	<slot></slot>
 </main>
 
 <!-- STYLE -->
@@ -37,6 +37,10 @@
 		box-sizing: border-box;
 		color: $c-primary;
 		background-color: $c-background-primary;
+
+		@media screen and (max-width: $breakpoint) {
+    	height: auto;
+  	}
 	}
 
 	.logo {

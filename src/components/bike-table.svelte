@@ -131,6 +131,10 @@
   flex-grow: 1;
   overflow: hidden;
 
+  @media screen and (max-width: $breakpoint) {
+    overflow: visible;
+  }
+
   &__list {
     overflow-y: scroll;
     -ms-overflow-style: none;  /* IE and Edge */
@@ -138,6 +142,10 @@
 
     &::-webkit-scrollbar {
       display: none;
+    }
+
+    @media screen and (max-width: $breakpoint) {
+      overflow-y: auto;
     }
   }
 
@@ -155,6 +163,9 @@
     &__element {
       display: flex;
       justify-content: center;
+    }
+    @media screen and (max-width: $breakpoint) {
+      overflow-y: auto;
     }
   }
 }
