@@ -2,12 +2,12 @@
 <script>
 import IElectric from "../icons/i-electric.svelte";
 
-  export let generics;
+  export let bike;
 
   let color = '#EDEDED';
   let electric = false;
-  if (generics && generics.electric) {
-    switch (generics.electric) {
+  if (bike && bike.electric) {
+    switch (bike.electric) {
       case 'yes':
         color = '#7AED74';
         electric = true;

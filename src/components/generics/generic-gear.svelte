@@ -1,11 +1,11 @@
 <!-- Script -->
 <script>
-  export let generics;
+  export let bike;
 </script>
 <!-- DOM -->
 
 <div class="circle">
-  {generics.gears}
+  {bike.gears}
 </div>
 
 <!-- Style -->

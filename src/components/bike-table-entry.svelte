@@ -10,7 +10,7 @@
 </script>
 
 <!-- DOM -->
-<div class="bike-table-entry" on:click={goto(`/${bike.brand.id}/${bike.id}`)}>
+<div class="bike-table-entry" on:click={goto(`/${bike.brand.id}/${bike.image.url}`)}>
   <div class="row a-c basics">
     <img class="brand-logo table-column" src={`${serverURL}/${bike.brand.logo}`} alt=""/>
     <div class="spacer" />
@@ -19,7 +19,7 @@
     </span>
     <div class="spacer" />
     <span class="table-column">
-      {bike.generics.type}
+      {bike.bikeType}
     </span>
     <div class="spacer" />
   </div>
@@ -27,9 +27,9 @@
     <TimeLine
       selectedStartPeriod={selectedStartPeriod}
       selectedEndPeriod={selectedEndPeriod}
-      bikeProductionStart={bike.start}
-      bikeProductionEnd={bike.end}
-      color={bike.brand.color}
+      bikeProductionStart={bike.productionStart}
+      bikeProductionEnd={bike.productionEnd}
+      color={bike.bike_brand.color}
     />
   </div>
 </div>

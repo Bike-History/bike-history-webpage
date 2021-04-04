@@ -12,3 +12,5 @@ export const Views = {
 export const searchInput = writable('');
 export const format = writable(Format.table);
 export const view = writable(Views.bikes);
+
+export const user = writable('');

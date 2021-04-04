@@ -21,16 +21,11 @@
   let selectedFormat = Format.table;
 
   onMount(async () => {
-    const brandsRes = await fetch(`${serverURL}/brands`);
-    const brands = (await brandsRes.json());
-
-    brands.forEach((brand) => {
-      fetch(`${serverURL}/bikes/${brand}`).then((bikesRes) => 
-        bikesRes.json()
-      ).then((data) => {
-        bikeData = [...bikeData, ...data];
-        updatePeriod({detail: { values: [selectedStartPeriod, selectedEndPeriod]}});
-      });
+    fetch(`${serverURL}/bikes`).then((bikesRes) => 
+      bikesRes.json()
+    ).then((data) => {
+      bikeData = data;
+      updatePeriod({detail: { values: [selectedStartPeriod, selectedEndPeriod]}});
     });
   });
 
@@ -63,8 +58,8 @@
     selectedEndPeriod = e.detail.values[1];
 
     processedData = bikeData.filter((bike) => !(
-      moment(bike.end).year() < selectedStartPeriod ||
-      moment(bike.start).year() > selectedEndPeriod
+      moment(bike.productionEnd).year() < selectedStartPeriod ||
+      moment(bike.productionStart).year() > selectedEndPeriod
     ));
     changeOrder(orderItem, increasing);
   }

@@ -1,15 +1,15 @@
 <!-- Script -->
 <script>
   import ICargobike from "../icons/i-cargobike.svelte";
-import ICity from "../icons/i-city.svelte";
+  import ICity from "../icons/i-city.svelte";
   import IMountain from "../icons/i-mountain.svelte";
   import IQuestionmark from "../icons/i-questionmark.svelte";
 
-  export let generics;
+  export let bike;
 
   let icon = '';
-  if (generics.type) {
-    switch (generics.type.toUpperCase()) {
+  if (bike.bikeType) {
+    switch (bike.bikeType.toUpperCase()) {
       case 'E-TOURING-BIKE':
       case 'E-CITY-BIKE':
       case 'STREET-BIKE':

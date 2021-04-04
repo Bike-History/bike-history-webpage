@@ -1,21 +1,16 @@
 <!-- Script -->
 <script>
   import ISmartphone from "../icons/i-smartphone.svelte";
-  export let generics;
+  export let bike;
 
   let color = '#EDEDED';
   let smart = false;
-  if (generics && generics.smart) {
-    switch (generics.smart.toLowerCase()) {
-      case 'yes':
-        color = '#009DFF';
-        smart = true;
-        break;
-      case 'no':
-        color = '#FC846F';
-        break;
-      default:
-        color = '#EDEDED';
+  if (bike && bike.smart) {
+    if (bike.smart) {
+      color = '#009DFF';
+      smart = true;
+    } else {
+      color = '#FC846F';
     }
   }
 </script>

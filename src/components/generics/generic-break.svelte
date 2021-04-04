@@ -6,10 +6,8 @@
 
   let color = '#EDEDED';
   let electric = false;
-    console.log(bike.name)
-    console.log(bike.generics)
-  if (bike.generics && bike.generics.electric) {
-    switch (bike.generics.electric.toLowerCase()) {
+  if (bike && bike.electric) {
+    switch (bike.electric.toLowerCase()) {
       case 'yes':
         color = '#7AED74';
         electric = true;

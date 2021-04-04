@@ -11,7 +11,6 @@
 		
 			return { bikeData };
 		} catch (e) {
-			console.log(e);
 			return this.redirect(302, '/');
 		}
 	}

@@ -1,15 +1,38 @@
 
 <!-- SCRIPT -->
 <script>
+  import { goto } from '@sapper/app';
+  import { onMount } from 'svelte';
+  import { user } from '../store.js';
 	import BikeTable from '../components/bike-table.svelte';
   import PageHeader from '../components/page-header.svelte';
+
+	onMount(async () => {
+		const params = new URLSearchParams(window.location.search);
+
+		const accessToken = params.get("access_token");
+		const localStorageValue =  localStorage.getItem('user');
+
+		if (accessToken) {
+			fetch(`https://api.bike-history.com/auth/github/callback/?access_token=${accessToken}`)
+				.then((rawData) => rawData.json())
+				.then((data) => {
+					localStorage.setItem('user', JSON.stringify(data));
+					user.update(() => data);
+					goto('/');
+				})
+		} else if (localStorageValue) {
+			console.log(localStorageValue);
+			user.update(() => JSON.parse(localStorageValue));
+		}
+	});
 </script>
 
 <!-- DOM -->
 <main class="column a-c">
-	<slot />
 	<PageHeader />
 	<BikeTable />
+	<slot />
 </main>
 
 <!-- STYLE -->

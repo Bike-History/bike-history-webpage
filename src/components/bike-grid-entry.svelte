@@ -3,33 +3,33 @@
   import { goto } from '@sapper/app';
   import { serverURL } from "../config";
   import GenericElectric from './generics/generic-electric.svelte';
-import GenericGear from './generics/generic-gear.svelte';
+  import GenericGear from './generics/generic-gear.svelte';
   import GenericSmart from './generics/generic-smart.svelte';
-import GenericType from './generics/generic-type.svelte';
+  import GenericType from './generics/generic-type.svelte';
   export let bike;
 
   console.log(JSON.stringify(bike.name));
 </script>
 
 <!-- DOM -->
-<div class="grid-element" on:click={goto(`/${bike.brand.id}/${bike.id}`)}>
+<div class="grid-element" on:click={goto(`/${bike.bike_brand.id}/${bike.id}`)}>
   <div class="grid-element__header">
-    <img class="brand-logo table-column" src={`${serverURL}/${bike.brand.logo}`} alt=""/>
+    <img class="brand-logo table-column" src={`${serverURL}${bike.bike_brand.logo.url}`} alt=""/>
   </div>
   <div class="grid-element__image-container">
     <img
       class="grid-element__image"
-      src={bike.image ? `${serverURL}${bike.image}`: ''}
+      src={bike.images ? `${serverURL}${bike.images[0].url}`: ''}
       alt="No picture available"
     />
   </div>
   <div class="grid-element__description">
     <span class="grid-element__description__title">{bike.name}</span>
     <div class="grid-element__description__generics row">
-      <GenericElectric generics={bike.generics} />
-      <GenericType generics={bike.generics} />
-      <GenericGear generics={bike.generics} />
-      <GenericSmart generics={bike.generics} />
+      <GenericElectric bike={bike} />
+      <GenericType bike={bike} />
+      <GenericGear bike={bike} />
+      <GenericSmart bike={bike} />
     </div>
   </div>
 </div>
