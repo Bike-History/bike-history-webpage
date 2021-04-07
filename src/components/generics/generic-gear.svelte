@@ -5,7 +5,7 @@
 <!-- DOM -->
 
 <div class="circle">
-  {bike.gears}
+  {bike.maxGears}
 </div>
 
 <!-- Style -->

@@ -6,8 +6,7 @@
   import { user } from '../store';
   import { onDestroy } from "svelte";
   import IStar from "./icons/i-star.svelte";
-  import ProfileDropdown from "./profile-dropdown.svelte";
-import ILogout from "./icons/i-logout.svelte";
+  import ILogout from "./icons/i-logout.svelte";
 
   let loginOverlay = false;
   let userData = null;

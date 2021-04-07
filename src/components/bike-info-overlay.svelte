@@ -4,7 +4,6 @@
 	import { serverURL } from '../config';
   import { lightOrDark } from '../helpers/color.js';
   import IBike from './icons/i-bike.svelte';
-  import IChevron from './icons/i-chevron.svelte';
   export let bike;
 
   let overlay;

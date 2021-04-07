@@ -7,16 +7,11 @@ import IElectric from "../icons/i-electric.svelte";
   let color = '#EDEDED';
   let electric = false;
   if (bike && bike.electric) {
-    switch (bike.electric) {
-      case 'yes':
-        color = '#7AED74';
-        electric = true;
-        break;
-      case 'no':
-        color = '#FC846F';
-        break;
-      default:
-        color = '#EDEDED';
+    if (bike.electric) {
+      color = '#7AED74';
+      electric = true;
+    } else {
+      color = '#FC846F';
     }
   }
 </script>

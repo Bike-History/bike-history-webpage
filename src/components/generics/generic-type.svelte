@@ -10,16 +10,16 @@
   let icon = '';
   if (bike.bikeType) {
     switch (bike.bikeType.toUpperCase()) {
-      case 'E-TOURING-BIKE':
-      case 'E-CITY-BIKE':
-      case 'STREET-BIKE':
+      case 'E_TOURING_BIKE':
+      case 'E_CITY_BIKE':
+      case 'STREET_BIKE':
         icon = 'city';
         break;
-      case 'E-MOUNTAIN-BIKE':
+      case 'E_MOUNTAIN_BIKE':
         icon = 'montain';
         break;
-      case 'E-CARGO-BIKE':
-      case 'CARGO-BIKE':
+      case 'E_CARGO_BIKE':
+      case 'CARGO_BIKE':
         icon = 'cargobike';
         break;
       default:

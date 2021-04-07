@@ -15,11 +15,10 @@
   let productionLenght;
   let visible = true;
   $: {
-    let selectedStartPeriodUnix = moment([selectedStartPeriod, 1, 1]).valueOf();
-    let selectedEndPeriodUnix = moment([selectedEndPeriod, 1, 1]).valueOf();
-
-    let bikeProductionEndUnix = selectedEndPeriodUnix < bikeProductionEnd ? selectedEndPeriodUnix: bikeProductionEnd;
-    let bikeProductionStartUnix = bikeProductionStart > selectedStartPeriodUnix ? bikeProductionStart : selectedStartPeriodUnix;
+    let selectedStartPeriodUnix = moment([selectedStartPeriod, 1, 1]).unix();
+    let selectedEndPeriodUnix = moment([selectedEndPeriod, 1, 1]).unix();
+    let bikeProductionEndUnix = selectedEndPeriodUnix < moment(bikeProductionEnd).unix() ? selectedEndPeriodUnix:  moment(bikeProductionEnd).unix();
+    let bikeProductionStartUnix =  moment(bikeProductionStart).unix() > selectedStartPeriodUnix ? moment(bikeProductionStart).unix() : selectedStartPeriodUnix;
     shownPeriod = (selectedEndPeriodUnix - selectedStartPeriodUnix)
     prodPeriod = (bikeProductionEndUnix - bikeProductionStartUnix)
     productionStartOffset = ((bikeProductionStartUnix - selectedStartPeriodUnix) / shownPeriod) * 100;
