@@ -1,5 +1,6 @@
 <!-- Script -->
 <script>
+  import { goto } from '@sapper/app';
   import Search from "./search.svelte";
 	import ILogo from './icons/i-logo.svelte';
   import Contribute from "./contribute.svelte";
@@ -25,7 +26,7 @@
 
 <!-- DOM -->
 <div class="header">
-  <div class="row a-c">
+  <div class="row a-c" style="cursor:pointer" on:click={goto('/')}>
     <span class="logo">
       <ILogo />
     </span>

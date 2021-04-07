@@ -8,11 +8,13 @@
 
   let overlay;
 
-  $: specs = Object.keys(bike.specs).map((spec) => (
-    {type: spec, value: bike.specs[spec]}
+  const propertyTypes = ['motor', 'gear', 'battery', 'range', 'weight'];
+
+  $: specs = Object.keys(bike.bike_property).map((spec) => (
+    {type: spec, value: bike.bike_property[spec]}
   ));
 
-  $: buttonColor = lightOrDark(bike.brand.color) === 'light' ? '#000' : '#fff';
+  $: buttonColor = lightOrDark(bike.bike_brand.color) === 'light' ? '#000' : '#fff';
 
   const navigateBack = (event) => {
     if (event.target === overlay) {
@@ -27,13 +29,13 @@
     <div class="bike-info-header">
       <img
         class="bike-info-header__image"
-        src={bike.image ? `${serverURL}${bike.image}`: ''}
+        src={bike.images ? `${serverURL}${bike.images[0].url}`: ''}
         alt="No Bike image available"
       />
       <div class="bike-info-header__text">
         <h1 class="bike-info-header__title">{bike.name}</h1>
         <p class="bike-info-header__description">{bike.description}</p>
-        <button class="bike-info-header__dealer" style={`background-color:${bike.brand.color}; color: ${buttonColor}`}>
+        <button class="bike-info-header__dealer" style={`background-color:${bike.bike_brand.color}; color: ${buttonColor}`}>
           <span class="text">To Dealer</span>
           <IBike /> 
         </button>
@@ -41,10 +43,12 @@
     </div>
     <div class="bike-info__specs">
       {#each specs as spec}
-      <div class="bike-info__specs__chip">
-        <img class="icon" src={`/icons/${spec.type}.svg`} alt={spec.type} />
-        <span class="value">{spec.value}</span>
-      </div>
+        {#if propertyTypes.includes(spec.type) && spec.value}
+          <div class="bike-info__specs__chip">
+            <img class="icon" src={`/icons/${spec.type}.svg`} alt={spec.type} />
+            <span class="value">{spec.value}</span>
+          </div>
+        {/if}
       {/each}
     </div>
   </div>

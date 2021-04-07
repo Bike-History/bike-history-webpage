@@ -6,7 +6,7 @@
 		const { brand, bikeId } = page.params;
 
 		try {
-			const bikesRes = await this.fetch(`${serverURL}/bikes/${brand}/${bikeId}`)
+			const bikesRes = await this.fetch(`${serverURL}/bikes/${bikeId}`)
 			const bikeData = await bikesRes.json();
 		
 			return { bikeData };
@@ -23,7 +23,7 @@
 </script>
 
 <svelte:head>
-	<title>Bike-History {bikeData.brand.name} - {bikeData.name}</title>
+	<title>Bike-History {bikeData.bike_brand.name} - {bikeData.name}</title>
 </svelte:head>
 
 <BikeInfoOverlay bike={bikeData}/>

@@ -22,7 +22,6 @@
 					goto('/');
 				})
 		} else if (localStorageValue) {
-			console.log(localStorageValue);
 			user.update(() => JSON.parse(localStorageValue));
 		}
 	});
