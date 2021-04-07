@@ -6,15 +6,21 @@
   import { user } from '../store';
   import { onDestroy } from "svelte";
   import IStar from "./icons/i-star.svelte";
+  import ProfileDropdown from "./profile-dropdown.svelte";
+import ILogout from "./icons/i-logout.svelte";
 
   let loginOverlay = false;
+  let userData = null;
 
-  let userData;
   const unsubscribe = user.subscribe((value) => {
-    if (value.user) {
-      userData = value;
-    }
+    userData = value;
   });
+
+  const logout = () => {
+    user.update(() => null);
+    localStorage.removeItem('user');
+  }
+
   onDestroy(unsubscribe);
 </script>
 
@@ -28,11 +34,15 @@
   </div>
   <Search />
   {#if userData}
-    <div class="row a-c">
+    <div class="profile">
       <img class="avatar" src={`https://avatars.githubusercontent.com/${userData.user.username}`}>
       <div class="points">
         <span class="points__text">10</span>
         <IStar />
+        <div class="profile__spacer" />
+        <div class="profile__logout" on:click={logout}>
+          <ILogout />
+        </div>
       </div>
     </div>
 
@@ -40,6 +50,7 @@
     <button on:click={() => loginOverlay = true}>Contribute</button>
   {/if}
 </div>
+
 
 {#if loginOverlay}
   <Contribute closeCallback={() => loginOverlay = false}/>
@@ -49,6 +60,7 @@
 <style lang="scss">
   @import "./style/global.scss";
   .header {
+    position: relative;
     display: flex;
     align-items: center;
     width: 100%;
@@ -80,11 +92,28 @@
     }
   }
 
+  .profile {
+    display: flex;
+    align-items: center;
+    border: 2px solid $c-background-primary;
+    border-radius: $space-slg;
+    padding-right: $space-md;
+
+    &__logout {
+      display: flex;
+      align-items: center;
+    }
+
+    &__spacer {
+      height: $space-md;
+      margin: $space-md;
+      border-left: 2px solid $c-background-primary;
+    }
+  }
+
   .avatar {
     border-radius: 50%;
     height: $space-slg;
-    padding: $space-ssm;
-    border: 1px solid darken($c-background-primary, 5);
     box-sizing: border-box;
   }
 </style>

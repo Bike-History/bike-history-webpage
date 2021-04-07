@@ -29,6 +29,10 @@
 </script>
 
 <!-- DOM -->
+<svelte:head>
+	<title>Bike-History</title>
+</svelte:head>
+
 <main class="column a-c">
 	<PageHeader />
 	<BikeTable />
