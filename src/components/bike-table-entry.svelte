@@ -10,7 +10,7 @@
 </script>
 
 <!-- DOM -->
-<div class="bike-table-entry" on:click={goto(`/${bike.bike_brand.id}/${bike.image.url}`)}>
+<div class="bike-table-entry" on:click={() => goto(`/${bike.bike_brand.id}/${bike.image.url}`)}>
   <div class="row a-c basics">
     <img class="brand-logo table-column" src={`${serverURL}${bike.bike_brand.logo.url}`} alt=""/>
     <div class="spacer" />

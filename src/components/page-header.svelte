@@ -4,10 +4,12 @@
   import Search from "./search.svelte";
 	import ILogo from './icons/i-logo.svelte';
   import Contribute from "./contribute.svelte";
-  import { user } from '../store';
+  import { user, bikeData } from '../store';
   import { onDestroy } from "svelte";
   import IStar from "./icons/i-star.svelte";
   import ILogout from "./icons/i-logout.svelte";
+  import IBike from './icons/i-bike.svelte';
+  import { BikeEmpty } from '../models/bike';
 
   let loginOverlay = false;
   let userData = null;
@@ -21,12 +23,17 @@
     localStorage.removeItem('user');
   }
 
+  const handleAdd = () => {
+    bikeData.update(() => BikeEmpty());
+    goto('/new');
+  }
+
   onDestroy(unsubscribe);
 </script>
 
 <!-- DOM -->
 <div class="header">
-  <div class="row a-c" style="cursor:pointer" on:click={goto('/')}>
+  <div class="row a-c" style="cursor:pointer" on:click={() => goto('/')}>
     <span class="logo">
       <ILogo />
     </span>
@@ -34,18 +41,24 @@
   </div>
   <Search />
   {#if userData}
-    <div class="profile">
-      <img class="avatar" src={`https://avatars.githubusercontent.com/${userData.user.username}`}>
-      <div class="points">
-        <span class="points__text">10</span>
-        <IStar />
-        <div class="profile__spacer" />
-        <div class="profile__logout" on:click={logout}>
-          <ILogout />
+    <div class="row">
+      <div class="profile">
+        <img class="avatar" src={`https://avatars.githubusercontent.com/${userData.user.username}`}>
+        <div class="points">
+          <span class="points__text">10</span>
+          <IStar />
+          <div class="profile__spacer" />
+          <button class="add-bike" on:click={handleAdd}>
+            <span>+ Add</span>
+            <IBike />
+          </button>
+          <div class="profile__spacer" />
+          <div class="profile__logout" on:click={logout}>
+            <ILogout />
+          </div>
         </div>
       </div>
     </div>
-
   {:else}
     <button on:click={() => loginOverlay = true}>Contribute</button>
   {/if}
@@ -106,8 +119,20 @@
 
     &__spacer {
       height: $space-md;
-      margin: $space-md;
+      margin: $space-sm;
       border-left: 2px solid $c-background-primary;
+    }
+  }
+
+  .add-bike {
+    display: flex;
+    align-items: center;
+    border-radius: $space-slg;
+    font-size: $font-sm;
+    padding: 0;
+
+    & > * {
+      margin: 0 $space-sm;
     }
   }
 

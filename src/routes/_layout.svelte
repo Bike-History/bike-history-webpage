@@ -3,7 +3,8 @@
 <script>
   import { goto } from '@sapper/app';
   import { onMount } from 'svelte';
-  import { user } from '../store.js';
+  import { user, brands } from '../store.js';
+	import { serverURL } from '../config';
 	import BikeTable from '../components/bike-table.svelte';
   import PageHeader from '../components/page-header.svelte';
 
@@ -14,7 +15,7 @@
 		const localStorageValue =  localStorage.getItem('user');
 
 		if (accessToken) {
-			fetch(`https://api.bike-history.com/auth/github/callback/?access_token=${accessToken}`)
+			fetch(`${serverURL}/auth/github/callback/?access_token=${accessToken}`)
 				.then((rawData) => rawData.json())
 				.then((data) => {
 					localStorage.setItem('user', JSON.stringify(data));
@@ -24,6 +25,12 @@
 		} else if (localStorageValue) {
 			user.update(() => JSON.parse(localStorageValue));
 		}
+
+		fetch(`${serverURL}/bike-brands`).then((brandsResponse) => 
+			brandsResponse.json()
+    ).then((data) => {
+			brands.update(() => data);
+    });
 	});
 </script>
 

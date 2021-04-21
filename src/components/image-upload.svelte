@@ -47,7 +47,7 @@
 </script>
 
 <!-- DOM -->
-<img src={`${serverURL}${currentImage}`} />
+<img src={currentImage ? `${serverURL}${currentImage.url}` : ''} />
 <div class="image__overlay" on:click={loadFile}>
   <form id="uploadForm">
     <input type="file" name="files" id="fileUpload" style="display:none">

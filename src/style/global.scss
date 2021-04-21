@@ -24,10 +24,17 @@ html, body {
   font-family: $g-font;
 }
 
-input {
+input, select {
   border: none;
   background-color: transparent;
   outline: none;
+}
+
+select {
+  /* for Firefox */
+  -moz-appearance: none;
+  /* for Chrome */
+  -webkit-appearance: none;
 }
 
 h1 {

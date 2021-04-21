@@ -12,7 +12,7 @@
 </script>
 
 <!-- DOM -->
-<div class="grid-element" on:click={goto(`/${bike.bike_brand.id}/${bike.id}`)}>
+<div class="grid-element" on:click={() => goto(`/${bike.bike_brand.id}/${bike.id}`)}>
   <div class="grid-element__header">
     <img class="brand-logo table-column" src={`${serverURL}${bike.bike_brand.logo.url}`} alt=""/>
   </div>
