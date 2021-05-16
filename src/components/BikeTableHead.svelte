@@ -8,38 +8,52 @@
   import IList from "./icons/i-list.svelte";
   import IProduction from "./icons/i-production.svelte";
   import Switch from "./elements/Switch.svelte";
-  import { view, format, Format, Views } from '../store.js';
+  import { view, format, Format, Views, order } from '../store.js';
+  import { onDestroy } from "svelte";
   export let startPeriod;
   export let endPeriod;
   export let selectedStartPeriod;
   export let buildTimeCallback;
-  export let orderCallback
 
   const years = endPeriod - startPeriod;
 
-  const items = [
+  let orderData = {flag: 'name', increasing: true};
+  const unsubscribeOrder = order.subscribe((value) => orderData = value);
+  onDestroy(unsubscribeOrder);
+
+  let viewData = Views.bikes;
+  const unsubscribeView = view.subscribe((value) => {
+    viewData = value;
+    order.update(() => ({flag: 'name', increasing: true}));
+  });
+
+  $: items = viewData === Views.bikes ? [
     {value: 'brand', label: 'brand'},
     {value: 'name', label: 'name'},
     {value: 'type', label: 'type'},
     {value: 'start', label: 'release'},
     {value: 'end', label: 'last prod.'},
-  ]
+  ] : [
+    {value: 'name', label: 'name'},
+    {value: 'start', label: 'start'},
+    {value: 'end', label: 'end'},
+  ];
 
-  let selectedValue = {value: 'name', label: 'name'};
   let orderIncreasing = false;
+
+  onDestroy(unsubscribeView);
 
   const setOrderIncreasing = () => {
     orderIncreasing = true;
-    orderCallback(selectedValue.value, orderIncreasing);
+    order.update(() => ({flag: orderData.flag, increasing: orderIncreasing}));
   }
   const setOrderDecreasing = () => {
     orderIncreasing = false;
-    orderCallback(selectedValue.value, orderIncreasing);
+    order.update(() => ({flag: orderData.flag, increasing: orderIncreasing}));
   }
 
   const orderChanged = (event) => {
-    selectedValue = event.detail;
-    orderCallback(selectedValue.value, orderIncreasing);
+    order.update(() => ({flag: event.detail.value, increasing: orderIncreasing}));
   }
 
   const searchInputChanged = (e) => {
@@ -53,7 +67,7 @@
     <div class="row select">
       <Select
         {items}
-        {selectedValue}
+        selectedValue={orderData.flag}
         on:select={orderChanged}
         isClearable={false}
       />
@@ -63,7 +77,13 @@
       </div>
     </div>
     <div class="switch-row">
-      <Switch selectedCallback={(value) => view.update(() => value)} selected={view} leftValue={Views.bikes} rightValue={Views.dealers}>
+      <Switch selectedCallback={(value) => {
+          view.update(() => value);
+        }}
+        selected={view}
+        leftValue={Views.bikes}
+        rightValue={Views.dealers}
+      >
         <IBike slot="left"/>
         <IProduction slot="right"/>
       </Switch>

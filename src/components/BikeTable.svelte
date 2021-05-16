@@ -1,12 +1,11 @@
 <!-- Script -->
 <script>
-  import BikeTableEntry from "./BikeTableEntry.svelte";
-  import TableHeadEntry from "./BikeTableHead.svelte";
-  import { onMount, onDestroy } from "svelte";
+  import BikeTableEntry from './BikeTableEntry.svelte';
+  import TableHeadEntry from './BikeTableHead.svelte';
+  import { onDestroy } from 'svelte';
   import moment from 'moment';
-  import { serverURL } from '../config';
-  import { format, Format, searchInput, bikes, leaderboard } from '../store';
-  import BikeGridEntry from "./BikeGridEntry.svelte";
+  import { format, Format, searchInput, bikes, order } from '../store';
+  import BikeGridEntry from './BikeGridEntry.svelte';
 
   let bikeData = [];
   let processedData = [];
@@ -16,33 +15,33 @@
   let selectedStartPeriod = 1950;
   let selectedEndPeriod = endPeriod;
 
-  let orderItem = 'name';
-  let increasing = true;
   let selectedFormat = Format.table;
 
-  const changeOrder = (orderItem, increasing) => {
-    orderItem = orderItem;
-    increasing = increasing;
-    if (orderItem === 'name' || orderItem === 'type') {
-      processedData = processedData.sort((a, b) => {
-        return increasing
-          ? a[orderItem].localeCompare(b[orderItem])
-          : b[orderItem].localeCompare(a[orderItem])
-      });
-    } else if (orderItem === 'start' || orderItem === 'end') {
-      processedData = processedData.sort((a, b) => {
-        return increasing
-          ? a[orderItem] > b[orderItem]
-          : a[orderItem] < b[orderItem]
-      });
-    } else if (orderItem === 'brand') {
-      processedData = processedData.sort((a, b) => {
-        return increasing
-          ? a.brand.name.localeCompare(b.brand.name)
-          : b.brand.name.localeCompare(a.brand.name)
-      });
+  const updateOrder = (orderItem) => {
+    console.log(orderItem);
+    if (orderItem) {
+      if (orderItem.flag === 'name' || orderItem.flag === 'type') {
+        processedData = processedData.sort((a, b) => {
+          return orderItem.increasing
+            ? a[orderItem.flag].localeCompare(b[orderItem.flag])
+            : b[orderItem.flag].localeCompare(a[orderItem.flag])
+        });
+      } else if (orderItem.flag === 'start' || orderItem.flag === 'end') {
+        processedData = processedData.sort((a, b) => {
+          return orderItem.increasing
+            ? a[orderItem.flag] > b[orderItem.flag]
+            : a[orderItem.flag] < b[orderItem.flag]
+        });
+      } else if (orderItem.flag === 'brand') {
+        processedData = processedData.sort((a, b) => {
+          return orderItem.increasing
+            ? a.brand.name.localeCompare(b.brand.name)
+            : b.brand.name.localeCompare(a.brand.name)
+        });
+      }
     }
   }
+  const unsubscribeOrder = order.subscribe(updateOrder);
 
   const updatePeriod = (e) =>{
     selectedStartPeriod = e.detail.values[0];
@@ -52,7 +51,7 @@
       moment(bike.productionEnd).year() < selectedStartPeriod ||
       moment(bike.productionStart).year() > selectedEndPeriod
     ));
-    changeOrder(orderItem, increasing);
+    // updateOrder(orderItem, increasing);
   }
 
   const unsubscribeBikes = bikes.subscribe((value) => {
@@ -60,6 +59,7 @@
     updatePeriod({detail: { values: [selectedStartPeriod, selectedEndPeriod]}});
   });
   onDestroy(unsubscribeBikes);
+  onDestroy(unsubscribeOrder);
 
   searchInput.subscribe((value) => {
     updatePeriod({detail: { values: [selectedStartPeriod, selectedEndPeriod]}});
@@ -83,7 +83,6 @@
       endPeriod={endPeriod}
       selectedStartPeriod={selectedStartPeriod}
       buildTimeCallback={updatePeriod}
-      orderCallback={changeOrder}
     />
   </div>
   {#if selectedFormat === Format.list}

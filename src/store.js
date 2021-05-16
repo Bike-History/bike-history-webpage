@@ -21,6 +21,7 @@ export const leaderboard = writable({});
 export const searchInput = writable('');
 export const format = writable(Format.table);
 export const view = writable(Views.bikes);
+export const order = writable({flag: 'name', increasing: true});
 export const loadingData = writable(true);
 
 // User
