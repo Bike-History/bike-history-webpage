@@ -1,10 +1,10 @@
 <!-- Script -->
 <script>
   import { goto } from '@sapper/app';
-  import Search from "./search.svelte";
+  import Search from "./elements/Search.svelte";
 	import ILogo from './icons/i-logo.svelte';
-  import Contribute from "./contribute.svelte";
-  import { user, bikeData } from '../store';
+  import Contribute from "./ContributePopup.svelte";
+  import { user, bikeData, leaderboard } from '../store';
   import { onDestroy } from "svelte";
   import IStar from "./icons/i-star.svelte";
   import ILogout from "./icons/i-logout.svelte";
@@ -13,10 +13,17 @@
 
   let loginOverlay = false;
   let userData = null;
+  let leaderboardData = {};
 
-  const unsubscribe = user.subscribe((value) => {
+  const unsubscribeUser = user.subscribe((value) => {
     userData = value;
   });
+  
+  const unsubscribeLeaderBoard = leaderboard.subscribe((value) => {
+    leaderboardData = value;
+  });
+
+  $: userStars = userData.user && userData.user.username ? leaderboardData[userData.user.username] || 0 : 0;
 
   const logout = () => {
     user.update(() => null);
@@ -25,10 +32,11 @@
 
   const handleAdd = () => {
     bikeData.update(() => BikeEmpty());
-    goto('/new');
+    goto('/bike-edit');
   }
 
-  onDestroy(unsubscribe);
+  onDestroy(unsubscribeUser);
+  onDestroy(unsubscribeLeaderBoard);
 </script>
 
 <!-- DOM -->
@@ -45,7 +53,7 @@
       <div class="profile">
         <img class="avatar" src={`https://avatars.githubusercontent.com/${userData.user.username}`}>
         <div class="points">
-          <span class="points__text">10</span>
+          <span class="points__text">{userStars}</span>
           <IStar />
           <div class="profile__spacer" />
           <button class="add-bike" on:click={handleAdd}>

@@ -14,11 +14,16 @@ export const Views = {
 
 // Base Data
 export const brands = writable([]);
+export const bikes = writable([]);
+export const leaderboard = writable({});
 
+// UI
 export const searchInput = writable('');
 export const format = writable(Format.table);
 export const view = writable(Views.bikes);
+export const loadingData = writable(true);
 
+// User
 export const user = writable('');
 
 // Editing

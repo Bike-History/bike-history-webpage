@@ -1,12 +1,12 @@
 <!-- Script -->
 <script>
-  import BikeTableEntry from "./bike-table-entry.svelte";
-  import TableHeadEntry from "./table-head-entry.svelte";
-  import { onMount } from "svelte";
+  import BikeTableEntry from "./BikeTableEntry.svelte";
+  import TableHeadEntry from "./BikeTableHead.svelte";
+  import { onMount, onDestroy } from "svelte";
   import moment from 'moment';
   import { serverURL } from '../config';
-  import { format, Format, searchInput } from '../store';
-  import BikeGridEntry from "./bike-grid-entry.svelte";
+  import { format, Format, searchInput, bikes, leaderboard } from '../store';
+  import BikeGridEntry from "./BikeGridEntry.svelte";
 
   let bikeData = [];
   let processedData = [];
@@ -19,15 +19,6 @@
   let orderItem = 'name';
   let increasing = true;
   let selectedFormat = Format.table;
-
-  onMount(async () => {
-    fetch(`${serverURL}/bikes`).then((bikesRes) => 
-      bikesRes.json()
-    ).then((data) => {
-      bikeData = data;
-      updatePeriod({detail: { values: [selectedStartPeriod, selectedEndPeriod]}});
-    });
-  });
 
   const changeOrder = (orderItem, increasing) => {
     orderItem = orderItem;
@@ -63,6 +54,12 @@
     ));
     changeOrder(orderItem, increasing);
   }
+
+  const unsubscribeBikes = bikes.subscribe((value) => {
+    bikeData = value;
+    updatePeriod({detail: { values: [selectedStartPeriod, selectedEndPeriod]}});
+  });
+  onDestroy(unsubscribeBikes);
 
   searchInput.subscribe((value) => {
     updatePeriod({detail: { values: [selectedStartPeriod, selectedEndPeriod]}});
@@ -104,11 +101,13 @@
   {:else}
     <div class="bike-table__grid">
       {#each processedData as bike (bike.id)}
-        <div class="bike-table__grid__element">
-          <BikeGridEntry
-            bike={bike}
-          />
-        </div>
+        {#if bike.bike_brand && bike.images.length > 0}
+          <div class="bike-table__grid__element">
+            <BikeGridEntry
+              bike={bike}
+            />
+          </div>
+        {/if}
       {/each}
     </div>
   {/if}

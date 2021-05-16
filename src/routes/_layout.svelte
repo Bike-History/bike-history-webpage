@@ -3,10 +3,10 @@
 <script>
   import { goto } from '@sapper/app';
   import { onMount } from 'svelte';
-  import { user, brands } from '../store.js';
+  import { user, brands, bikes, leaderboard } from '../store.js';
 	import { serverURL } from '../config';
-	import BikeTable from '../components/bike-table.svelte';
-  import PageHeader from '../components/page-header.svelte';
+	import BikeTable from '../components/BikeTable.svelte';
+  import PageHeader from '../components/PageHeader.svelte';
 
 	onMount(async () => {
 		const params = new URLSearchParams(window.location.search);
@@ -26,11 +26,29 @@
 			user.update(() => JSON.parse(localStorageValue));
 		}
 
-		fetch(`${serverURL}/bike-brands`).then((brandsResponse) => 
-			brandsResponse.json()
-    ).then((data) => {
-			brands.update(() => data);
-    });
+		const brandsData = await (await fetch(`${serverURL}/bike-brands`)).json();
+		brands.update(() => brandsData);
+
+		const bikesData = await (await fetch(`${serverURL}/bikes`)).json();
+		const leaderboardData = {};
+		console.log(bikesData);
+		bikesData.forEach((bike) => {
+			if (bike.creator) {
+				if (leaderboardData[bike.creator]) {
+					leaderboardData[bike.creator] += 1;
+				} else {
+					leaderboardData[bike.creator] = 1;
+				}
+			}
+		});
+		// const leaderboardList = Object.keys(leaderboardData).map((username) => ({
+		// 	username,
+		// 	stars: leaderboardData[username],
+		// }));
+		// console.log(leaderboardList);
+		leaderboard.update(() => leaderboardData);
+		console.log(bikesData);
+    bikes.update(() => bikesData);
 	});
 </script>
 

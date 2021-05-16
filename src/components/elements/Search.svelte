@@ -1,7 +1,7 @@
 <!-- Script -->
 <script>
-  import IMagnifier from "./icons/i-magnifier.svelte";
-  import { searchInput } from '../store.js';
+  import IMagnifier from "../icons/i-magnifier.svelte";
+  import { searchInput } from '../../store.js';
 
   const searchInputChanged = (e) => {
     searchInput.update(() => e.target.value)

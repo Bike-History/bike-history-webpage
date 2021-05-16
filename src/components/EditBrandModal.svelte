@@ -2,26 +2,30 @@
 <script>
   import { goto } from '@sapper/app';
   import { onDestroy } from 'svelte';
-  import ImageUpload from './image-upload.svelte';
-  import { brandData, brands } from '../store';
+  import ImageUpload from './elements/ImageUpload.svelte';
+  import { brandData, user } from '../store';
+  import { serverURL } from '../config';
 
   let overlay;
+  let userData = null;
+  const unsubscribeUser = user.subscribe((value) => userData = value);
+
   let brand;
   const unsubscribeBrand = brandData.subscribe((value) => brand = value);
 
   let errors = {
-    name: '',
+    title: '',
     brand: '',
     link: '',
-    start: '',
-    end: '',
+    startDate: '',
+    endDate: '',
     origin: '',
     color: '',
   }
 
   const navigateBack = (event) => {
     if (event.target === overlay) {
-      goto(`/`);
+      goto(`/bike-edit`);
     }
   }
 
@@ -29,31 +33,85 @@
     document.getElementById('fileUpload').click();
   }
   const updateImage = (event) => {
-    bike.images.push(event.detail[0]);
-    bikeData.update(() => bike);
+    brand.logo = event.detail[0];
+    brandData.update(() => bike);
   };
 
+  const createOrUpdateBrand = () => {
+    fetch(`${serverURL}/bike-brands`, {
+      method: 'POST',
+      body: JSON.stringify(brand),
+      headers: {
+        'Authorization': `Bearer ${userData.jwt}`,
+        'Content-Type': 'application/json',
+      },
+    }).then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        navigateBack();
+      });
+  };
+
+  const saveBrand = () => {
+    if (!brand.title) {
+      errors.title = 'Please insert brand name.';
+    } else {
+      errors.title = '';
+    }
+    if (!brand.color) {
+      errors.color = 'Please set a brand color.';
+    } else {
+      errors.color = '';
+    }
+    if (!brand.origin) {
+      errors.origin = 'Please select a brand origin.';
+    } else {
+      errors.origin = '';
+    }
+    if (!brand.startDate) {
+      errors.startDate = 'Please enter the founding date of the brand.';
+    } else {
+      errors.startDate = '';
+    }
+    if (!brand.endDate) {
+      errors.endDate = 'Please enter the founding date of the brand.';
+    } else {
+      errors.endDate = '';
+    }
+
+    // Check all errors
+    for (const key in errors) {
+      console.log(key);
+      if (errors[key].length !== 0) {
+        return;
+      }
+    }
+
+    createOrUpdateBrand();
+  }
+
   onDestroy(unsubscribeBrand);
+  onDestroy(unsubscribeUser);
 </script>
 
 <!-- DOM -->
 <div class="brand-info-overlay" on:click={navigateBack} bind:this={overlay}>
   <div class="brand-edit">
-    <button class="brand-edit__save">Save Brand Data</button>
+    <button class="brand-edit__save" on:click={saveBrand}>Save Brand Data</button>
     <div class="brand-edit__header">
       <div class="brand-edit__header__image">
-        <ImageUpload />
+        <ImageUpload currentImage={brand.logo} on:change={updateImage}/>
       </div>
       <div class="brand-edit__header__info">
-        {#if errors.name}
-          <span>{errors.name}</span>
+        {#if errors.title}
+          <span class="brand-edit__error">{errors.title}</span>
         {/if}
         <input
           class="brand-edit__header__info__title"
           type="text"
           placeholder="Brand-Name"
-          value={brand.name}
-          on:change={(event) => brand.name = event.target.value}
+          value={brand.title}
+          on:change={(event) => brand.title = event.target.value}
         />
         <textarea
           class="brand-edit__header__info__description"
@@ -61,9 +119,6 @@
           value={brand.description}
           on:change={(event) => brand.description = event.target.value}
         />
-        {#if errors.link}
-          <span>{errors.link}</span>
-        {/if}
         <input
           class="brand-edit__header__info__web"
           type="text"
@@ -77,33 +132,49 @@
       <div class="brand-edit__meta-entry">
         <label>Color</label>
         {#if errors.color}
-          <span>{errors.color}</span>
+          <span class="brand-edit__error">{errors.color}</span>
         {/if}
-        <input type="text"/>
+        <input
+          type="text"
+          value={brand.color}
+          on:change={(event) => brand.color = event.target.value}
+        />
       </div>
       <div class="brand-edit__meta-entry">
         <label>Origin</label>
         {#if errors.origin}
-          <span>{errors.origin}</span>
+          <span class="brand-edit__error">{errors.origin}</span>
         {/if}
-        <input type="text"/>
+        <input
+          type="text"
+          value={brand.origin}
+          on:change={(event) => brand.origin = event.target.value}
+        />
       </div>
       <div class="brand-edit__meta-entry">
         <label>Production-Start</label>
-        {#if errors.start}
-          <span>{errors.start}</span>
+        {#if errors.startDate}
+          <span class="brand-edit__error">{errors.startDate}</span>
         {/if}
-        <input type="date"/>
+        <input
+          type="date"
+          value={brand.startDate}
+          on:change={(event) => brand.startDate = event.target.value}
+        />
       </div>
       <div class="brand-edit__meta-entry">
         <label>Production-End</label>
-        {#if errors.end}
-          <span>{errors.end}</span>
+        {#if errors.endDate}
+          <span class="brand-edit__error">{errors.endDate}</span>
         {/if}
-        <input type="date"/>
+        <input
+          type="date"
+          value={brand.endDate}
+          on:change={(event) => brand.endDate = event.target.value}
+        />
       </div>
     </div>
-    <button class="brand-edit__save">Save Brand Data</button>
+    <button class="brand-edit__save" on:click={saveBrand}>Save Brand Data</button>
   </div>
 </div>
 
@@ -149,6 +220,11 @@
       margin: 0;
       padding: $space-sm $space-md;
       box-sizing: border-box;
+    }
+
+    &__error {
+      color: red;
+      font-size: $font-ssm;
     }
 
     &__header {
@@ -236,7 +312,14 @@
 
     &__meta {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(330px,auto)); 
+      grid-template-columns: repeat(auto-fill, minmax(330px,auto));
+
+      &-entry {
+        display: flex;
+        flex-direction: column;
+        width: 320px;
+        margin: $space-sm 0;
+      }
     }
 
     &__save {

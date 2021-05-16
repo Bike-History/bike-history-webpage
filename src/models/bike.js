@@ -4,10 +4,14 @@ export const BikeEmpty = () => ({
   productionStart: null,
   productionEnd: null,
   bikeType: null,
+  bike_brand: null,
+  maxGears: null,
   slug: '',
   link: '',
   images: [],
   contributors: [],
+  electric: false,
+  smart: false,
 });
 
 export const BikeFromRequest = (body) => ({
@@ -16,8 +20,12 @@ export const BikeFromRequest = (body) => ({
   productionStart: body.productionStart,
   productionEnd: body.productionEnd,
   bikeType: body.bikeType,
+  bike_brand: body.brand,
+  maxGears: body.maxGear,
   slug: body.slug,
   images: body.images,
   link: body.link,
   contributors: body.contributors,
+  electric: body.electric,
+  smart: body.smart,
 });

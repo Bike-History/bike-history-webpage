@@ -7,7 +7,7 @@
   import IGrid from "./icons/i-grid.svelte";
   import IList from "./icons/i-list.svelte";
   import IProduction from "./icons/i-production.svelte";
-  import Switch from "./switch.svelte";
+  import Switch from "./elements/Switch.svelte";
   import { view, format, Format, Views } from '../store.js';
   export let startPeriod;
   export let endPeriod;

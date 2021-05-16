@@ -17,7 +17,7 @@
 </script>
 
 <script>
-	import BikeInfoOverlay from '../../components/bike-info-overlay.svelte';
+	import BikeInfoOverlay from '../../components/BikeInfoOverlay.svelte';
 
 	export let bikeData;
 </script>

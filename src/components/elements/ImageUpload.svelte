@@ -1,7 +1,7 @@
 <!-- SCRIPT -->
 <script>
-  import { serverURL } from '../config';
-  import { user } from '../store';
+  import { serverURL } from '../../config';
+  import { user } from '../../store';
   import { createEventDispatcher } from 'svelte';
 
   export let currentImage;

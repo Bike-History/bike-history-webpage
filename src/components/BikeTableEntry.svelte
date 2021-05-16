@@ -2,7 +2,7 @@
 <script>
   import { goto } from '@sapper/app';
   import { serverURL } from "../config";
-  import TimeLine from "./time-line.svelte";
+  import TimeLine from "./TimeLine.svelte";
 
   export let selectedStartPeriod;
   export let selectedEndPeriod;

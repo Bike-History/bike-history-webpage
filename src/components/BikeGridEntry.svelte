@@ -7,8 +7,6 @@
   import GenericSmart from './generics/generic-smart.svelte';
   import GenericType from './generics/generic-type.svelte';
   export let bike;
-
-  console.log(JSON.stringify(bike.name));
 </script>
 
 <!-- DOM -->
