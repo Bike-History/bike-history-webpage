@@ -6,6 +6,7 @@
   import moment from 'moment';
   import { format, Format, searchInput, bikes, order, view, Views, brands } from '../store';
   import BikeGridEntry from './BikeGridEntry.svelte';
+  import BrandGridEntry from './BrandGridEntry.svelte';
 
   let viewData = Views.bikes;
   let bikeData = [];
@@ -118,18 +119,20 @@
     </ul>
   {:else}
     <div class="bike-table__grid">
-      {#each processedData as bike (bike.id)}
-        {#if bike.bike_brand && bike.images.length > 0}
+      {#each processedData as dataEntry (dataEntry.id)}
+        {#if viewData === Views.bikes}
+          {#if dataEntry.bike_brand && dataEntry.images.length > 0}
+            <div class="bike-table__grid__element">
+                <BikeGridEntry
+                  bike={dataEntry}
+                />
+            </div>
+          {/if}
+        {:else if viewData === Views.dealers}
           <div class="bike-table__grid__element">
-            {#if viewData === Views.bikes}
-              <BikeGridEntry
-                bike={bike}
-              />
-            {:else if viewData === Views.dealers}
-              <BrandGridEntry
-                brand={brand}
-              />
-            {/if}
+            <BrandGridEntry
+              brand={dataEntry}
+            />
           </div>
         {/if}
       {/each}
