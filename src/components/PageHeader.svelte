@@ -45,7 +45,7 @@
     <span class="logo">
       <ILogo />
     </span>
-    <h1>Bike-History</h1 >
+    <h1 class="title">Bike-History</h1 >
   </div>
   <Search />
   {#if userData}
@@ -100,7 +100,10 @@
     align-items: center;
     margin-right: $space-sm;
   }
-
+  
+  .title {
+    font-size: $font-slg;
+  }
   .points {
     display: flex;
     align-items: center;
@@ -148,5 +151,6 @@
     border-radius: 50%;
     height: $space-slg;
     box-sizing: border-box;
+    padding: 2px;
   }
 </style>

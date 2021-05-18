@@ -23,7 +23,7 @@
 </script>
 
 <svelte:head>
-	<title>Bike-History {bikeData.bike_brand.name} - {bikeData.name}</title>
+	<title>Bike-History {bikeData.bike_brand.title} - {bikeData.name}</title>
 </svelte:head>
 
 <BikeInfoOverlay bike={bikeData}/>

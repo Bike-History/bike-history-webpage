@@ -24,7 +24,7 @@
 	@import "./style/global.scss";
 
   .search {
-    border: 1px solid $c-shaddow;
+    border: 2px solid $c-background-primary;
     border-radius: $br-md;
     padding: $space-sm $space-md;
     color: $c-primary-lightest;
@@ -35,16 +35,16 @@
       font-size: $font-md;
 
       ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-        color: $c-shaddow;
+        color: $c-background-primary;
         opacity: 1; /* Firefox */
       }
 
       :-ms-input-placeholder { /* Internet Explorer 10-11 */
-        color: $c-shaddow;
+        color: $c-background-primary;
       }
 
       ::-ms-input-placeholder { /* Microsoft Edge */
-        color: $c-shaddow;
+        color: $c-background-primary;
       }
     }
   }
