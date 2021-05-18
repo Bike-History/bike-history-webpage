@@ -30,13 +30,14 @@
   $: items = viewData === Views.bikes ? [
     {value: 'brand', label: 'brand'},
     {value: 'name', label: 'name'},
-    {value: 'type', label: 'type'},
-    {value: 'start', label: 'release'},
-    {value: 'end', label: 'last prod.'},
+    {value: 'bike-type', label: 'type'},
+    {value: 'productionStart', label: 'release'},
+    {value: 'productionEnd', label: 'last prod.'},
   ] : [
     {value: 'name', label: 'name'},
-    {value: 'start', label: 'start'},
-    {value: 'end', label: 'end'},
+    {value: 'startDate', label: 'start'},
+    {value: 'endDate', label: 'end'},
+    {value: 'origin', label: 'origin'},
   ];
 
   let orderIncreasing = false;
@@ -72,7 +73,12 @@
         isClearable={false}
       />
       <div class="column">
-        <button class={orderIncreasing ? 'flipped-v order order--active' : 'flipped-v order'} on:click={setOrderIncreasing}><IChevron /></button>
+        <button
+          class={orderIncreasing ? 'flipped-v order order--active' : 'flipped-v order'}
+          on:click={setOrderIncreasing}
+        >
+          <IChevron />
+        </button>
         <button class={orderIncreasing ? 'order' : 'order--active'} on:click={setOrderDecreasing}><IChevron /></button>
       </div>
     </div>

@@ -6,20 +6,29 @@
 
   export let selectedStartPeriod;
   export let selectedEndPeriod;
-  export let bike;
+  export let data;
+
+  $: brand = data.bike_brand ? data.bike_brand : data;
 </script>
 
 <!-- DOM -->
-<div class="bike-table-entry" on:click={() => goto(`/${bike.bike_brand.id}/${bike.image.url}`)}>
+<div
+  class="data-table-entry"
+  on:click={() => data.bike_brand ? goto(`/${data.bike_brand.id}/${data.image.url}`) : goto(`/${data.id}`)}
+>
   <div class="row a-c basics">
-    <img class="brand-logo table-column" src={`${serverURL}${bike.bike_brand.logo.url}`} alt=""/>
+    <img
+      class="brand-logo table-column"
+      src={`${serverURL}${brand.logo.url}`}
+      alt={`Logo of ${data.bike_brand ? brand.name : brand.title}`}
+    />
     <div class="spacer" />
     <span class="table-column">
-      {bike.name}
+      {data.bike_brand ? data.name : data.title}
     </span>
     <div class="spacer" />
     <span class="table-column">
-      {bike.bikeType}
+      {data.bike_brand ? data.bikeType : data.origin}
     </span>
     <div class="spacer" />
   </div>
@@ -27,9 +36,9 @@
     <TimeLine
       selectedStartPeriod={selectedStartPeriod}
       selectedEndPeriod={selectedEndPeriod}
-      bikeProductionStart={bike.productionStart}
-      bikeProductionEnd={bike.productionEnd}
-      color={bike.bike_brand.color}
+      bikeProductionStart={data.bike_brand ? data.productionStart : data.startDate}
+      bikeProductionEnd={data.bike_brand ? data.productionEnd : data.endDate}
+      color={brand.color}
     />
   </div>
 </div>
@@ -38,7 +47,7 @@
 <style lang="scss">
 @import "./style/global.scss";
 
-.bike-table-entry {
+.data-table-entry {
   display: flex;
   align-items: center;
   border-radius: $br-md;

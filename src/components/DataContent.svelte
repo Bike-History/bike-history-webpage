@@ -1,13 +1,15 @@
 <!-- Script -->
 <script>
-  import BikeTableEntry from './BikeTableEntry.svelte';
+  import DataListEntry from './DataListEntry.svelte';
   import TableHeadEntry from './BikeTableHead.svelte';
   import { onDestroy } from 'svelte';
   import moment from 'moment';
-  import { format, Format, searchInput, bikes, order } from '../store';
+  import { format, Format, searchInput, bikes, order, view, Views, brands } from '../store';
   import BikeGridEntry from './BikeGridEntry.svelte';
 
+  let viewData = Views.bikes;
   let bikeData = [];
+  let brandData = [];
   let processedData = [];
   let startPeriod = 1870;
   let endPeriod = moment().year();
@@ -18,7 +20,6 @@
   let selectedFormat = Format.table;
 
   const updateOrder = (orderItem) => {
-    console.log(orderItem);
     if (orderItem) {
       if (orderItem.flag === 'name' || orderItem.flag === 'type') {
         processedData = processedData.sort((a, b) => {
@@ -47,19 +48,37 @@
     selectedStartPeriod = e.detail.values[0];
     selectedEndPeriod = e.detail.values[1];
 
-    processedData = bikeData.filter((bike) => !(
-      moment(bike.productionEnd).year() < selectedStartPeriod ||
-      moment(bike.productionStart).year() > selectedEndPeriod
-    ));
+    if (viewData === Views.bikes) {
+      processedData = bikeData.filter((bike) => !(
+        moment(bike.productionEnd).year() < selectedStartPeriod ||
+        moment(bike.productionStart).year() > selectedEndPeriod
+      ));
+    } else {
+      processedData = brandData.filter((brand) => !(
+        moment(brand.endDate).year() < selectedStartPeriod ||
+        moment(brand.startDate).year() > selectedEndPeriod
+      ));
+    }
     // updateOrder(orderItem, increasing);
   }
 
+ 
+  const unsubscribeView = view.subscribe((value) => {
+    viewData = value;
+    updatePeriod({detail: { values: [selectedStartPeriod, selectedEndPeriod]}});
+  });
   const unsubscribeBikes = bikes.subscribe((value) => {
     bikeData = value;
     updatePeriod({detail: { values: [selectedStartPeriod, selectedEndPeriod]}});
   });
+  const unsubscribeBrands = brands.subscribe((value) => {
+    brandData = value;
+    updatePeriod({detail: { values: [selectedStartPeriod, selectedEndPeriod]}});
+  });
   onDestroy(unsubscribeBikes);
   onDestroy(unsubscribeOrder);
+  onDestroy(unsubscribeView);
+  onDestroy(unsubscribeBrands);
 
   searchInput.subscribe((value) => {
     updatePeriod({detail: { values: [selectedStartPeriod, selectedEndPeriod]}});
@@ -87,13 +106,13 @@
   </div>
   {#if selectedFormat === Format.list}
     <ul class="bike-table__list">
-      {#each processedData as bike (bike.id)}
+      {#each processedData as dataEntry (dataEntry.id)}
         <li class="bike-table__entry">
-          <BikeTableEntry
-            bike={bike}
-            selectedStartPeriod={selectedStartPeriod}
-            selectedEndPeriod={selectedEndPeriod}
-          />
+            <DataListEntry
+              data={dataEntry}
+              selectedStartPeriod={selectedStartPeriod}
+              selectedEndPeriod={selectedEndPeriod}
+            />
         </li>
       {/each}
     </ul>
@@ -102,9 +121,15 @@
       {#each processedData as bike (bike.id)}
         {#if bike.bike_brand && bike.images.length > 0}
           <div class="bike-table__grid__element">
-            <BikeGridEntry
-              bike={bike}
-            />
+            {#if viewData === Views.bikes}
+              <BikeGridEntry
+                bike={bike}
+              />
+            {:else if viewData === Views.dealers}
+              <BrandGridEntry
+                brand={brand}
+              />
+            {/if}
           </div>
         {/if}
       {/each}

@@ -5,7 +5,7 @@
   import { onMount } from 'svelte';
   import { user, brands, bikes, leaderboard } from '../store.js';
 	import { serverURL } from '../config';
-	import BikeTable from '../components/BikeTable.svelte';
+	import DataContent from '../components/DataContent.svelte';
   import PageHeader from '../components/PageHeader.svelte';
 
 	onMount(async () => {
@@ -59,7 +59,7 @@
 
 <main class="column a-c">
 	<PageHeader />
-	<BikeTable />
+	<DataContent />
 	<slot />
 </main>
 
