@@ -1,4 +1,5 @@
 export const BikeEmpty = () => ({
+  id: -1,
   name: '',
   description: '',
   productionStart: null,
@@ -15,6 +16,7 @@ export const BikeEmpty = () => ({
 });
 
 export const BikeFromRequest = (body) => ({
+  id: body.id,
   name: body.name,
   description: body.description,
   productionStart: body.productionStart,

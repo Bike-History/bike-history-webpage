@@ -4,6 +4,9 @@
 	import { serverURL } from '../config';
   import { lightOrDark } from '../helpers/color.js';
   import IBike from './icons/i-bike.svelte';
+  import { onDestroy } from 'svelte';
+  import { user, loginOverlayShown, brandData } from '../store.js';
+  import IClipboardEdit from './icons/i-clipboard-edit.svelte';
   export let brand;
 
   let overlay;
@@ -15,6 +18,22 @@
       goto(`/`);
     }
   }
+
+  let userData = null;
+  const unsubscribeUser = user.subscribe((value) => {
+    userData = value;
+  });
+
+  const handleEdit = () => {
+    if (!userData.user) {
+      loginOverlayShown.update(() => true);
+      return;
+    }
+    brandData.update(() => brand);
+    goto('/brand-edit');
+  }
+
+  onDestroy(unsubscribeUser);
 </script>
 
 <!-- DOM -->
@@ -34,6 +53,12 @@
           <IBike /> 
         </button>
       </div>
+    </div>
+    <div class="brand-info__footer">
+      <div />
+      <span on:click={handleEdit} class="row a-c brand-info__edit">
+        edit- <IClipboardEdit />
+      </span>
     </div>
   </div>
 </div>
@@ -160,6 +185,16 @@
           margin: 0 $space-md;
         }
       }
+    }
+    &__footer {
+      display: flex;
+      justify-content: space-between;
+      box-sizing: border-box;
+      margin: 0 $space-lg $space-md $space-lg;
+    }
+
+    &__edit {
+      cursor: pointer;
     }
   }
 </style>

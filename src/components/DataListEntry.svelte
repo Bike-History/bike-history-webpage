@@ -14,7 +14,7 @@
 <!-- DOM -->
 <div
   class="data-table-entry"
-  on:click={() => data.bike_brand ? goto(`/${data.bike_brand.id}/${data.image.url}`) : goto(`/${data.id}`)}
+  on:click={() => data.bike_brand ? goto(`/${data.bike_brand.id}/${data.id}`) : goto(`/${data.id}`)}
 >
   <div class="row a-c basics">
     <img

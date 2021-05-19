@@ -35,7 +35,7 @@
   }
 
   const updateImage = (event) => {
-    bike.images.push(event.detail[0]);
+    bike.images[0] = event.detail[0];
     bikeData.update(() => bike);
   };
 
@@ -44,18 +44,33 @@
   }
 
   const createOrUpdateBike = () => {
-    fetch(`${serverURL}/bikes`, {
-      method: 'POST',
-      body: JSON.stringify(bike),
-      headers: {
-        'Authorization': `Bearer ${userData.jwt}`,
-        'Content-Type': 'application/json',
-      },
-    }).then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        navigateBack();
-      });
+    if (bike.id != -1) {
+      fetch(`${serverURL}/bikes/${bike.id}`, {
+        method: 'PUT',
+        body: JSON.stringify(bike),
+        headers: {
+          'Authorization': `Bearer ${userData.jwt}`,
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          goto(`/`);
+        });
+    } else {
+      fetch(`${serverURL}/bikes`, {
+        method: 'POST',
+        body: JSON.stringify(bike),
+        headers: {
+          'Authorization': `Bearer ${userData.jwt}`,
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          goto(`/`);
+        });
+    }
   };
 
   const saveBike = () => {
@@ -64,7 +79,6 @@
     } else {
       errors.name = '';
     }
-    console.log('brand', bike.bike_brand);
     if (!(bike.bike_brand || bike.bike_brand === 0)) {
       errors.bike_brand = 'Please select a brand.';
     } else {
@@ -131,7 +145,7 @@
           value={bike.name}
           on:change={(event) => {
             bike.name = event.target.value
-            bike.slug = `${event.target.value}-slug`
+            bike.slug = `${event.target.value.split(' ').join('')}-slug`
           }}
         />
         <textarea
@@ -161,6 +175,7 @@
       <div class="bike-edit__brand-input">
         <select
           class="bike-edit__brand-select"
+          value={bike.bike_brand ? bike.bike_brand.id : ""}
           on:click={(event) => bike.bike_brand = event.target.value}
         >
           <option value="" disabled selected>Please select</option>
@@ -177,7 +192,6 @@
       </div>
     </div>
     <div class="bike-edit__meta">
-     
       <div class="bike-edit__meta-entry">
         <label>Type</label>
         {#if errors.bikeType}
@@ -186,12 +200,18 @@
         <select
           value={bike.bikeType}
           on:change={(event) => {
-            console.log(event)
             bike.bikeType = event.target.value
           }}
         >
           <option value="" disabled selected>Please select</option>
-          <option>CITY_BIKE</option>
+          <option value="E_CITY_BIKE">E_CITY_BIKE</option>
+          <option value="E_MOUNTAIN_BIKE">E_MOUNTAIN_BIKE</option>
+          <option value="E_CARGO_BIKE">E_CARGO_BIKE</option>
+          <option value="CITY_BIKE">CITY_BIKE</option>
+          <option value="MOUNTAIN_BIKE">MOUNTAIN_BIKE</option>
+          <option value="CARGO_BIKE">CARGO_BIKE</option>
+          <option value="STREET_BIKE">STREET_BIKE</option>
+          <option value="BMX">BMX</option>
         </select>
       </div>
       <div class="bike-edit__meta-entry">
@@ -207,14 +227,16 @@
       </div>
       <div class="bike-edit__meta-entry">
         <label>Electric</label>
-        <input type="checkbox"
+        <input
+          type="checkbox"
           value={bike.electric}
           on:change={(event) => bike.electric = event.target.value}
         />
       </div>
       <div class="bike-edit__meta-entry">
         <label>Smart</label>
-        <input type="checkbox"
+        <input
+          type="checkbox"
           value={bike.smart}
           on:change={(event) => bike.smart = event.target.value}
         />

@@ -29,27 +29,37 @@
     }
   }
 
-  const uploadImage = () => {
-    document.getElementById('fileUpload').click();
-  }
   const updateImage = (event) => {
     brand.logo = event.detail[0];
     brandData.update(() => bike);
   };
 
   const createOrUpdateBrand = () => {
-    fetch(`${serverURL}/bike-brands`, {
-      method: 'POST',
-      body: JSON.stringify(brand),
-      headers: {
-        'Authorization': `Bearer ${userData.jwt}`,
-        'Content-Type': 'application/json',
-      },
-    }).then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        navigateBack();
-      });
+    if (brand.id != -1) {
+      fetch(`${serverURL}/bike-brands/${brand.id}`, {
+        method: 'PUT',
+        body: JSON.stringify(brand),
+        headers: {
+          'Authorization': `Bearer ${userData.jwt}`,
+          'Content-Type': 'application/json',
+        },
+      }).then((response) => response.json())
+        .then((data) => {
+          goto(`/bike-edit`);
+        });
+    } else {
+      fetch(`${serverURL}/bike-brands`, {
+        method: 'POST',
+        body: JSON.stringify(brand),
+        headers: {
+          'Authorization': `Bearer ${userData.jwt}`,
+          'Content-Type': 'application/json',
+        },
+      }).then((response) => response.json())
+        .then((data) => {
+          goto(`/bike-edit`);
+        });
+    }
   };
 
   const saveBrand = () => {
@@ -81,7 +91,6 @@
 
     // Check all errors
     for (const key in errors) {
-      console.log(key);
       if (errors[key].length !== 0) {
         return;
       }

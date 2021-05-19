@@ -1,9 +1,12 @@
 <!-- Script -->
 <script>
   import { goto } from '@sapper/app';
+  import { onDestroy } from "svelte";
 	import { serverURL } from '../config';
   import { lightOrDark } from '../helpers/color.js';
+  import { user, loginOverlayShown, bikeData } from '../store.js';
   import IBike from './icons/i-bike.svelte';
+  import IClipboardEdit from './icons/i-clipboard-edit.svelte';
   export let bike;
 
   let overlay;
@@ -21,6 +24,22 @@
       goto(`/`);
     }
   }
+
+  let userData = null;
+  const unsubscribeUser = user.subscribe((value) => {
+    userData = value;
+  });
+
+  const handleEdit = () => {
+    if (!userData.user) {
+      loginOverlayShown.update(() => true);
+      return;
+    }
+    bikeData.update(() => bike);
+    goto('/bike-edit');
+  }
+
+  onDestroy(unsubscribeUser);
 </script>
 
 <!-- DOM -->
@@ -50,6 +69,12 @@
           </div>
         {/if}
       {/each}
+    </div>
+    <div class="bike-info__footer">
+      <span>Added by @{bike.creator}</span>
+      <span on:click={handleEdit} class="row a-c bike-info__edit">
+        edit- <IClipboardEdit />
+      </span>
     </div>
   </div>
 </div>
@@ -147,7 +172,7 @@
       background-color: $c-background-primary;
       border-radius: $br-md;
       min-height: $space-lg;
-      margin: 0 $space-lg $space-lg $space-lg;
+      margin: 0 $space-lg $space-md $space-lg;
       box-sizing: border-box;
       padding: $space-sm;
       display: grid;
@@ -176,6 +201,17 @@
           margin: 0 $space-md;
         }
       }
+    }
+
+    &__footer {
+      display: flex;
+      justify-content: space-between;
+      box-sizing: border-box;
+      margin: 0 $space-lg $space-md $space-lg;
+    }
+
+    &__edit {
+      cursor: pointer;
     }
   }
 </style>

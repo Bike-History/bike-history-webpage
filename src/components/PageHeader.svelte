@@ -3,8 +3,7 @@
   import { goto } from '@sapper/app';
   import Search from "./elements/Search.svelte";
 	import ILogo from './icons/i-logo.svelte';
-  import Contribute from "./ContributePopup.svelte";
-  import { user, bikeData, leaderboard } from '../store';
+  import { user, bikeData, leaderboard, loginOverlayShown } from '../store';
   import { onDestroy } from "svelte";
   import IStar from "./icons/i-star.svelte";
   import ILogout from "./icons/i-logout.svelte";
@@ -23,7 +22,7 @@
     leaderboardData = value;
   });
 
-  $: userStars = userData.user && userData.user.username ? leaderboardData[userData.user.username] || 0 : 0;
+  $: userStars = userData && userData.user && userData.user.username ? leaderboardData[userData.user.username] || 0 : 0;
 
   const logout = () => {
     user.update(() => null);
@@ -68,14 +67,9 @@
       </div>
     </div>
   {:else}
-    <button on:click={() => loginOverlay = true}>Contribute</button>
+    <button on:click={() => loginOverlayShown.update(() => true)}>Contribute</button>
   {/if}
 </div>
-
-
-{#if loginOverlay}
-  <Contribute closeCallback={() => loginOverlay = false}/>
-{/if}
 
 <!-- Style -->
 <style lang="scss">
@@ -126,6 +120,7 @@
     &__logout {
       display: flex;
       align-items: center;
+      cursor: pointer;
     }
 
     &__spacer {
@@ -138,6 +133,7 @@
   .add-bike {
     display: flex;
     align-items: center;
+    cursor: pointer;
     border-radius: $space-slg;
     font-size: $font-sm;
     padding: 0;

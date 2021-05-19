@@ -2,11 +2,12 @@
 <!-- SCRIPT -->
 <script>
   import { goto } from '@sapper/app';
-  import { onMount } from 'svelte';
-  import { user, brands, bikes, leaderboard } from '../store.js';
+  import { onDestroy, onMount } from 'svelte';
+  import { user, brands, bikes, leaderboard, loginOverlayShown } from '../store.js';
 	import { serverURL } from '../config';
 	import DataContent from '../components/DataContent.svelte';
   import PageHeader from '../components/PageHeader.svelte';
+  import Contribute from "../components/ContributePopup.svelte";
 
 	onMount(async () => {
 		const params = new URLSearchParams(window.location.search);
@@ -31,7 +32,6 @@
 
 		const bikesData = await (await fetch(`${serverURL}/bikes`)).json();
 		const leaderboardData = {};
-		console.log(bikesData);
 		bikesData.forEach((bike) => {
 			if (bike.creator) {
 				if (leaderboardData[bike.creator]) {
@@ -45,11 +45,17 @@
 		// 	username,
 		// 	stars: leaderboardData[username],
 		// }));
-		// console.log(leaderboardList);
 		leaderboard.update(() => leaderboardData);
-		console.log(bikesData);
     bikes.update(() => bikesData);
 	});
+
+
+	let loginOverlay = false;
+	const unsubscribeLoginOverlayShown = loginOverlayShown.subscribe((value) => {
+		loginOverlay = value;
+	});
+
+	onDestroy(unsubscribeLoginOverlayShown);
 </script>
 
 <!-- DOM -->
@@ -61,6 +67,10 @@
 	<PageHeader />
 	<DataContent />
 	<slot />
+
+	{#if loginOverlay}
+		<Contribute closeCallback={() => loginOverlay = false}/>
+	{/if}
 </main>
 
 <!-- STYLE -->

@@ -23,6 +23,7 @@ export const format = writable(Format.table);
 export const view = writable(Views.bikes);
 export const order = writable({flag: 'name', increasing: true});
 export const loadingData = writable(true);
+export const loginOverlayShown = writable(false);
 
 // User
 export const user = writable('');

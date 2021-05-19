@@ -6,6 +6,8 @@
 
   export let currentImage;
 
+  let imageHover = false;
+
   let userData = null;
   const unsubscribe = user.subscribe((value) => {
     userData = value;
@@ -47,23 +49,42 @@
 </script>
 
 <!-- DOM -->
-<img src={currentImage ? `${serverURL}${currentImage.url}` : ''} />
-<div class="image__overlay" on:click={loadFile}>
-  <form id="uploadForm">
-    <input type="file" name="files" id="fileUpload" style="display:none">
-  </form>
+<form id="uploadForm">
+  <input type="file" name="files" id="fileUpload" style="display:none">
+</form>
+{#if currentImage}
+  <img
+    class="image"
+    src={currentImage ? `${serverURL}${currentImage.url}` : ''}
+    on:mouseenter={() => imageHover = true}
+  />
   {#if uploading}
-    <span>Uploading</span>
-  {:else}
-    <span>Add Image</span>
-    <span>+</span>
+    <div class="image__overlay">
+      <span>Uploading</span>
+    </div>
+  {:else if imageHover}
+    <div class="image__overlay" on:click={loadFile} on:mouseleave={() => imageHover = false}>
+      <span>Edit-Image</span>
+    </div>
   {/if}
-</div>
+{:else}
+  <div class="image__overlay" on:click={loadFile}>
+      <span>Add Image</span>
+      <span>+</span>
+  </div>
+{/if}
+
 
 <!-- STYLE -->
 <style lang="scss">
 	@import "./style/global.scss";
 
+  .image {
+    height: 100%;
+    width: 100%;
+    border-radius: $br-md;
+    object-fit: contain;
+  }
   .image__overlay {
     display: flex;
     cursor: pointer;
@@ -77,6 +98,6 @@
     height: 100%;
     width: 100%;
     border-radius: $br-md;
-    background-color: rgba(black,0.1);
+    background-color: rgba(black,0.3);
   }
 </style>

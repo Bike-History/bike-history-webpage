@@ -1,4 +1,5 @@
 export const BrandEmpty = () => ({
+  id: -1,
   title: '',
   description: '',
   link: '',
@@ -10,6 +11,7 @@ export const BrandEmpty = () => ({
 });
 
 export const BrandFromRequest = (body) => ({
+  id: body.id,
   title: body.name,
   description: body.description,
   link: body.link,
