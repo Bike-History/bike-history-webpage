@@ -8,6 +8,7 @@ import babel from '@rollup/plugin-babel';
 import { terser } from 'rollup-plugin-terser';
 import config from 'sapper/config/rollup.js';
 import sveltePreprocess from 'svelte-preprocess';
+import markdown from '@jackfranklin/rollup-plugin-markdown';
 import pkg from './package.json';
 
 const mode = process.env.NODE_ENV;
@@ -52,6 +53,7 @@ export default {
 				dedupe: ['svelte']
 			}),
 			commonjs(),
+			markdown(),
 
 			legacy && babel({
 				extensions: ['.js', '.mjs', '.html', '.svelte'],
@@ -101,6 +103,7 @@ export default {
 			resolve({
 				dedupe: ['svelte']
 			}),
+			markdown(),
 			commonjs()
 		],
 		external: Object.keys(pkg.dependencies).concat(require('module').builtinModules),

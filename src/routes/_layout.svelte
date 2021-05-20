@@ -8,6 +8,7 @@
 	import DataContent from '../components/DataContent.svelte';
   import PageHeader from '../components/PageHeader.svelte';
   import Contribute from "../components/ContributePopup.svelte";
+  import Footer from "../components/Footer.svelte";
 
 	onMount(async () => {
 		const params = new URLSearchParams(window.location.search);
@@ -71,6 +72,7 @@
 	{#if loginOverlay}
 		<Contribute closeCallback={() => loginOverlay = false}/>
 	{/if}
+	<Footer />
 </main>
 
 <!-- STYLE -->
