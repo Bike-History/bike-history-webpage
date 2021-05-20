@@ -6,7 +6,7 @@
   import { bikeData, brands } from '../store';
   import BikeSpecsEdit from './BikeSpecsEdit.svelte';
   import { serverURL } from '../config';
-  import { brandData, user } from '../store';
+  import { user } from '../store';
 
   let overlay;
   let errors = {
@@ -47,7 +47,7 @@
     if (bike.id != -1) {
       fetch(`${serverURL}/bikes/${bike.id}`, {
         method: 'PUT',
-        body: JSON.stringify(bike),
+        body: JSON.stringify({...bike, creator: userData.user.username}),
         headers: {
           'Authorization': `Bearer ${userData.jwt}`,
           'Content-Type': 'application/json',
@@ -128,7 +128,7 @@
 <!-- DOM -->
 <div class="bike-info-overlay" on:click={navigateBack} bind:this={overlay}>
   <div class="bike-edit">
-    <span>{bike.id ? `Editing ${bike.name}` : 'Adding a new Bike'}</span>
+    <h2 class="bike-edit__title">{bike.id != -1 ? `> Editing ${bike.name}` : '> Adding a new Bike'}</h2>
     <button class="bike-edit__save" on:click={saveBike}>Save Bike Data</button>
     <div class="bike-edit__header">
       <div class="bike-edit__header__image">
@@ -166,7 +166,10 @@
         />
       </div>
     </div>
-    <BikeSpecsEdit />
+    <BikeSpecsEdit
+      initSpecs={bike.bike_property}
+      on:change={(event) => bike.bike_property = event.detail}
+    />
     <div class="bike-edit__brand">
       <label>Brand</label>
       {#if errors.bike_brand}
@@ -315,6 +318,10 @@
       margin: 0;
       padding: $space-sm $space-md;
       box-sizing: border-box;
+    }
+
+    &__title {
+      margin: 0;
     }
 
     &__header {

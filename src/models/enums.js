@@ -23,7 +23,7 @@ export const bikeSpecs = {
   gear: 'string',
   chain: 'string',
   rear_brake: 'string',
-  front_break: 'string',
+  front_brake: 'string',
   rims: 'string',
   rear_deraillieor: 'string',
   front_feraillieur: 'string',

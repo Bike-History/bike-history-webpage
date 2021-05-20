@@ -6,11 +6,12 @@ export const BikeEmpty = () => ({
   productionEnd: null,
   bikeType: null,
   bike_brand: null,
+  bike_property: {id: -1},
   maxGears: null,
   slug: '',
   link: '',
   images: [],
-  contributors: [],
+  creator: '',
   electric: false,
   smart: false,
 });
@@ -27,7 +28,7 @@ export const BikeFromRequest = (body) => ({
   slug: body.slug,
   images: body.images,
   link: body.link,
-  contributors: body.contributors,
+  creator: body.creator,
   electric: body.electric,
   smart: body.smart,
 });

@@ -13,9 +13,9 @@
 
   const propertyTypes = ['motor', 'gear', 'battery', 'range', 'weight'];
 
-  $: specs = Object.keys(bike.bike_property).map((spec) => (
+  $: specs = bike.bike_property ? Object.keys(bike.bike_property).map((spec) => (
     {type: spec, value: bike.bike_property[spec]}
-  ));
+  )) : [];
 
   $: buttonColor = lightOrDark(bike.bike_brand.color) === 'light' ? '#000' : '#fff';
 

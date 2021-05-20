@@ -31,4 +31,3 @@ export const user = writable('');
 // Editing
 export const bikeData = writable(BikeEmpty());
 export const brandData = writable(BrandEmpty());
-export const specsData = writable(SpecsEmpty());
