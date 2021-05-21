@@ -18,7 +18,6 @@
     brand: '',
     link: '',
     startDate: '',
-    endDate: '',
     origin: '',
     color: '',
   }
@@ -82,11 +81,6 @@
       errors.startDate = 'Please enter the founding date of the brand.';
     } else {
       errors.startDate = '';
-    }
-    if (!brand.endDate) {
-      errors.endDate = 'Please enter the founding date of the brand.';
-    } else {
-      errors.endDate = '';
     }
 
     // Check all errors
@@ -173,14 +167,26 @@
       </div>
       <div class="brand-edit__meta-entry">
         <label>Production-End</label>
-        {#if errors.endDate}
-          <span class="brand-edit__error">{errors.endDate}</span>
-        {/if}
-        <input
-          type="date"
-          value={brand.endDate}
-          on:change={(event) => brand.endDate = event.target.value}
-        />
+        <div class="row a-c">
+          <input
+            type="checkbox"
+            checked={bike.endDate === null}
+            on:change={(event) => {
+              if (event.target.checked) {
+                bike.endDate = null
+                return;
+              }
+              bike.endDate = Date.now();
+            }}
+          />
+          <span class="bike-edit__meta-entry__text">Now /</span>
+          <input
+            disabled={bike.endDate === null}
+            type="date"
+            value={bike.endDate}
+            on:change={(event) => bike.endDate = event.target.value}
+          />
+        </div>
       </div>
     </div>
     <button class="brand-edit__save" on:click={saveBrand}>Save Brand Data</button>

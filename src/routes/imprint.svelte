@@ -32,7 +32,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    max-height: 100vh;
+    height: 100vh;
     background-color: rgba(black, 0.3);
     z-index: 10;
     overflow-y: auto;

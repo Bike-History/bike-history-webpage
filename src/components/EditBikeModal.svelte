@@ -16,7 +16,6 @@
     bikeType: '',
     maxGears: '',
     productionStart: '',
-    end: '',
   }
 
   let userData = null;
@@ -103,11 +102,6 @@
       errors.productionStart = 'Please enter the start date of this bikes production.';
     } else {
       errors.productionStart = '';
-    }
-    if (!bike.productionEnd) {
-      errors.productionEnd = 'Please enter the end date of this bikes production.';
-    } else {
-      errors.productionEnd = '';
     }
 
     // Check all errors
@@ -232,16 +226,16 @@
         <label>Electric</label>
         <input
           type="checkbox"
-          value={bike.electric}
-          on:change={(event) => bike.electric = event.target.value}
+          checked={bike.electric}
+          on:change={(event) => bike.electric = event.target.checked}
         />
       </div>
       <div class="bike-edit__meta-entry">
         <label>Smart</label>
         <input
           type="checkbox"
-          value={bike.smart}
-          on:change={(event) => bike.smart = event.target.value}
+          checked={bike.smart}
+          on:change={(event) => bike.smart = event.target.checked}
         />
       </div>
       <div class="bike-edit__meta-entry">
@@ -257,14 +251,27 @@
       </div>
       <div class="bike-edit__meta-entry">
         <label>Production-End</label>
-        {#if errors.productionEnd}
-          <span class="bike-edit__error">{errors.productionEnd}</span>
-        {/if}
-        <input
-          type="date"
-          value={bike.productionEnd}
-          on:change={(event) => bike.productionEnd = event.target.value}
-        />
+        <div class="row a-c">
+          <input
+            type="checkbox"
+            checked={bike.productionEnd === null}
+            on:change={(event) => {
+              console.log(event);
+              if (event.target.checked) {
+                bike.productionEnd = null
+                return;
+              }
+              bike.productionEnd = Date.now();
+            }}
+          />
+          <span class="bike-edit__meta-entry__text">Now /</span>
+          <input
+            disabled={bike.productionEnd === null}
+            type="date"
+            value={bike.productionEnd}
+            on:change={(event) => bike.productionEnd = event.target.value}
+          />
+        </div>
       </div>
     </div>
     <button class="bike-edit__save" on:click={saveBike}>Save Bike Data</button>
@@ -392,6 +399,10 @@
         flex-direction: column;
         width: 320px;
         margin: $space-sm 0;
+
+        &__text {
+          margin: 0 $space-md;
+        }
       }
     }
 
