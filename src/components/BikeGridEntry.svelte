@@ -48,6 +48,10 @@
     height: fit-content;
     cursor: pointer;
 
+    @media screen and (max-width: $breakpoint) {
+      width: 300px;
+    }
+
     &__header {
       display: flex;
       justify-content: center;

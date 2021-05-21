@@ -87,6 +87,7 @@
     top: 0;
     left: 0;
     width: 100%;
+    min-height: 100vh;
     height: 100%;
     background-color: rgba(black, 0.3);
     display: flex;
@@ -95,7 +96,6 @@
     z-index: 10;
 
     @media screen and (max-width: $breakpoint) {
-    	height: auto;
       padding: $space-slg 0;
 
       main {

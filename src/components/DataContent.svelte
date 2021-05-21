@@ -145,8 +145,8 @@
 @import "./style/global.scss";
 .bike-table {
   width: 100%;
-  padding: 0 30px;
-  margin-top: $space_lg;
+  padding: 0 $space-md;
+  margin-top: $space-lg;
   box-sizing: border-box;
 	flex-shrink: 1;
   flex-grow: 1;
@@ -154,6 +154,7 @@
 
   @media screen and (max-width: $breakpoint) {
     overflow: visible;
+    padding: 0 $space-sm;
   }
 
   &__list {
@@ -187,6 +188,7 @@
     }
     @media screen and (max-width: $breakpoint) {
       overflow-y: auto;
+      grid-template-columns: repeat(auto-fill, minmax(310px,auto));
     }
   }
 }

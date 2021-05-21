@@ -32,7 +32,8 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
+    height: 100%;
     background-color: rgba(black, 0.3);
     z-index: 10;
     overflow-y: auto;

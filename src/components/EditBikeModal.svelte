@@ -334,6 +334,11 @@
     &__header {
       display: flex;
 
+      @media screen and (max-width: $breakpoint) {
+        flex-direction: column;
+        align-items: center;
+      }
+
       &__image {
         position: relative;
         flex: 1;
@@ -347,6 +352,11 @@
         box-shadow: $bs-md;
         background-color: white;
         box-sizing: border-box;
+
+        @media screen and (max-width: $breakpoint) {
+          min-height: 200px;
+          min-width: 280px;
+        }
       }
 
       &__info {

@@ -87,10 +87,11 @@
 
 	html {
 		@media screen and (max-width: $breakpoint) {
-    	font-size: 16px;
+    	font-size: 14px;
 		}
 	}
 	main {
+		position: relative;
 		display: flex;
 		flex-direction: column;
 		width: 100%;

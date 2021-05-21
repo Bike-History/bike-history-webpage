@@ -89,6 +89,10 @@
 
     @media screen and (max-width: $breakpoint) {
       flex-direction: column;
+
+      & > * {
+        margin: $space-sm 0;
+      }
     }
   }
   .logo {
@@ -99,6 +103,9 @@
   
   .title {
     font-size: $font-slg;
+    @media screen and (max-width: $breakpoint) {
+      font-size: $font-lg;
+    }
   }
   .points {
     display: flex;

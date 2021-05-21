@@ -72,14 +72,14 @@
     left: 0;
     width: 100%;
     height: 100%;
+    min-height: 100vh;
     background-color: rgba(black, 0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
     z-index: 10;
 
     @media screen and (max-width: $breakpoint) {
-    	height: auto;
       padding: $space-slg 0;
 
       main {
@@ -93,7 +93,7 @@
     background-color: $c-background-raised;
     width: 80%;
     border-radius: $br-md;
-    margin-top: $space-elg;
+    margin: $space-lg auto;
   }
 
   .brand-info-header {

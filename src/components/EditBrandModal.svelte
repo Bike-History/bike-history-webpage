@@ -30,7 +30,7 @@
 
   const updateImage = (event) => {
     brand.logo = event.detail[0];
-    brandData.update(() => bike);
+    brandData.update(() => brand);
   };
 
   const createOrUpdateBrand = () => {
@@ -170,21 +170,21 @@
         <div class="row a-c">
           <input
             type="checkbox"
-            checked={bike.endDate === null}
+            checked={brand.endDate === null}
             on:change={(event) => {
               if (event.target.checked) {
-                bike.endDate = null
+                brand.endDate = null
                 return;
               }
-              bike.endDate = Date.now();
+              brand.endDate = Date.now();
             }}
           />
-          <span class="bike-edit__meta-entry__text">Now /</span>
+          <span class="brand-edit__meta-entry__text">Now /</span>
           <input
-            disabled={bike.endDate === null}
+            disabled={brand.endDate === null}
             type="date"
-            value={bike.endDate}
-            on:change={(event) => bike.endDate = event.target.value}
+            value={brand.endDate}
+            on:change={(event) => brand.endDate = event.target.value}
           />
         </div>
       </div>
@@ -245,6 +245,11 @@
     &__header {
       display: flex;
 
+      @media screen and (max-width: $breakpoint) {
+        flex-direction: column;
+        align-items: center;
+      }
+
       &__image {
         position: relative;
         flex: 1;
@@ -258,6 +263,11 @@
         box-shadow: $bs-md;
         background-color: white;
         box-sizing: border-box;
+
+        @media screen and (max-width: $breakpoint) {
+          min-height: 200px;
+          min-width: 280px;
+        }
 
         &__overlay {
           display: flex;
