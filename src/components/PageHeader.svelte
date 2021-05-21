@@ -52,10 +52,12 @@
       <div class="profile">
         <img class="avatar" src={`https://avatars.githubusercontent.com/${userData.user.username}`}>
         <div class="points">
-          <span class="points__text">{userStars}</span>
-          <IStar />
+          <div class="points__text" on:click={() => goto('/ranking')}>
+            <span>{userStars}</span>
+            <IStar />
+          </div>
           <div class="profile__spacer" />
-          <button class="add-bike" on:click={handleAdd}>
+          <button class="points__text" on:click={handleAdd}>
             <span>+ Add</span>
             <IBike />
           </button>
@@ -106,10 +108,16 @@
     margin-left: $space-md;
 
     &__text {
-      margin-right: $space-sm;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      font-size: $font-sm;
+
+      & > * {
+        margin: 0 $space-sm;
+      }
     }
   }
-
   .profile {
     display: flex;
     align-items: center;
@@ -129,20 +137,6 @@
       border-left: 2px solid $c-background-primary;
     }
   }
-
-  .add-bike {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    border-radius: $space-slg;
-    font-size: $font-sm;
-    padding: 0;
-
-    & > * {
-      margin: 0 $space-sm;
-    }
-  }
-
   .avatar {
     border-radius: 50%;
     height: $space-slg;
