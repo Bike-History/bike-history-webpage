@@ -24,7 +24,11 @@
   let viewData = Views.bikes;
   const unsubscribeView = view.subscribe((value) => {
     viewData = value;
-    order.update(() => ({flag: 'name', increasing: true}));
+    if (value === Views.dealers) {
+      order.update(() => ({flag: 'title', increasing: true}));
+    } else {
+      order.update(() => ({flag: 'name', increasing: true}));
+    }
   });
 
   $: items = viewData === Views.bikes ? [
@@ -34,7 +38,7 @@
     {value: 'productionStart', label: 'release'},
     {value: 'productionEnd', label: 'last prod.'},
   ] : [
-    {value: 'name', label: 'name'},
+    {value: 'title', label: 'title'},
     {value: 'startDate', label: 'start'},
     {value: 'endDate', label: 'end'},
     {value: 'origin', label: 'origin'},

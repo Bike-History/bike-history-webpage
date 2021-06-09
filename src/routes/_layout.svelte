@@ -9,6 +9,7 @@
   import PageHeader from '../components/PageHeader.svelte';
   import Contribute from "../components/ContributePopup.svelte";
   import Footer from "../components/Footer.svelte";
+	import VisionInfoOverlay from "../components/VisionInfoOverlay.svelte";
 
 	onMount(async () => {
 		const params = new URLSearchParams(window.location.search);
@@ -67,6 +68,7 @@
 <main class="column a-c">
 	<PageHeader />
 	<DataContent />
+	<VisionInfoOverlay />
 	<slot />
 
 	{#if loginOverlay}

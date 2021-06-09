@@ -100,7 +100,12 @@
 <!-- DOM -->
 <div class="brand-info-overlay" on:click={navigateBack} bind:this={overlay}>
   <div class="brand-edit">
-    <button class="brand-edit__save" on:click={saveBrand}>Save Brand Data</button>
+    <div class="brand-edit__submit">
+      <button class="brand-edit__save" on:click={saveBrand}>Save Brand Data</button>
+      {#if brand.id == -1}
+        <span class="brand-edit__error">Once a brand is create it cannot be removed!</span>
+      {/if}
+    </div>
     <div class="brand-edit__header">
       <div class="brand-edit__header__image">
         <ImageUpload currentImage={brand.logo} on:change={updateImage}/>
@@ -189,7 +194,12 @@
         </div>
       </div>
     </div>
-    <button class="brand-edit__save" on:click={saveBrand}>Save Brand Data</button>
+    <div class="brand-edit__submit">
+      {#if brand.id == -1}
+        <span class="brand-edit__error">Once a brand is create it cannot be removed!</span>
+      {/if}
+      <button class="brand-edit__save" on:click={saveBrand}>Save Brand Data</button>
+    </div>
   </div>
 </div>
 
@@ -238,8 +248,15 @@
     }
 
     &__error {
-      color: red;
+      color: $c-error;
       font-size: $font-ssm;
+      font-weight: bold;
+    }
+
+    &__submit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     &__header {

@@ -74,9 +74,9 @@
     height: 100%;
     min-height: 100vh;
     background-color: rgba(black, 0.3);
-    // display: flex;
-    // align-items: center;
-    // justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     z-index: 10;
 
     @media screen and (max-width: $breakpoint) {

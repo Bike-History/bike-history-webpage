@@ -3,6 +3,7 @@
   import { goto } from '@sapper/app';
   import { onDestroy } from "svelte";
 	import { serverURL } from '../config';
+  import { bikeSpecs } from '../models/enums';
   import { lightOrDark } from '../helpers/color.js';
   import { user, loginOverlayShown, bikeData } from '../store.js';
   import IBike from './icons/i-bike.svelte';
@@ -67,6 +68,14 @@
             <img class="icon" src={`/icons/${spec.type}.svg`} alt={spec.type} />
             <span class="value">{spec.value}</span>
           </div>
+        {:else}
+          {#if Object.keys(bikeSpecs).includes(spec.type) && spec.value}
+            <div class="bike-info__specs__chip">
+              <span class="value">{spec.type}</span>
+              <div class="bike-info__specs__chip__spacer"/>
+              <span class="value">{spec.value}</span>
+            </div>
+          {/if}
         {/if}
       {/each}
     </div>
@@ -199,6 +208,13 @@
         .icon {
           width: 1.5rem;
           margin: 0 $space-md;
+        }
+
+        &__spacer {
+          margin: $space-md;
+          height: 100%;
+          width: 1px;
+          background-color: $c-primary-lightest;
         }
       }
     }

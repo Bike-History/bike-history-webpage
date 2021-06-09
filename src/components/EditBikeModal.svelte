@@ -123,7 +123,12 @@
 <div class="bike-info-overlay" on:click={navigateBack} bind:this={overlay}>
   <div class="bike-edit">
     <h2 class="bike-edit__title">{bike.id != -1 ? `> Editing ${bike.name}` : '> Adding a new Bike'}</h2>
-    <button class="bike-edit__save" on:click={saveBike}>Save Bike Data</button>
+    <div class="bike-edit__submit">
+      <button class="bike-edit__save" on:click={saveBike}>Save Bike Data</button>
+      {#if bike.id == -1}
+        <span class="bike-edit__error">Once a bike is create it cannot be removed!</span>
+      {/if}
+    </div>
     <div class="bike-edit__header">
       <div class="bike-edit__header__image">
         <ImageUpload currentImage={bike.images[0]} on:change={updateImage}/>
@@ -274,7 +279,12 @@
         </div>
       </div>
     </div>
-    <button class="bike-edit__save" on:click={saveBike}>Save Bike Data</button>
+    <div class="bike-edit__submit">
+      {#if bike.id == -1}
+        <span class="bike-edit__error">Once a bike is create it cannot be removed!</span>
+      {/if}
+      <button class="bike-edit__save" on:click={saveBike}>Save Bike Data</button>
+    </div>
   </div>
 </div>
 
@@ -312,8 +322,15 @@
     padding: $space-lg;
 
     &__error {
-      color: red;
+      color: $c-error;
       font-size: $font-ssm;
+      font-weight: bold;
+    }
+
+    &__submit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     & > * {
