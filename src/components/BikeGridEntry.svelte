@@ -106,4 +106,10 @@
       }
     }
   }
+
+  .brand-logo {
+    padding: $space-sm;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
 </style>
