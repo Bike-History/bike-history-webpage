@@ -21,9 +21,9 @@
         <h2>Hey Cyclist! 🚴</h2>
         <p>
           We are <b>Henri</b> and <b>David</b>, working on this bike database.
-          Hopefully this list adds some value to your reseach.<br>
-          We belive the bicycle should get similar attention as motorized transportation.<br><br>
-          Feel free to contact us for feedback, suggestions and ideas under: <a><b>info@bike-history.com</b></a>
+          Hopefully this list adds some value to your research.<br>
+          We believe the bicycle should get similar attention as motorized transportation.<br><br>
+          Feel free to contact us for feedback, suggestions and ideas here: <a><b>info@bike-history.com</b></a>
         </p>
         <span>We really appreciate any contribution</span>
         <span>❤</span>

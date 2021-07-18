@@ -23,7 +23,7 @@
     <h2 class="title">Contribute</h2>
     <ul class="description">
       <li>Join the community and add your bike to the list.</li>
-      <li>Edit present bikes and improve the openSource Dataset.</li>
+      <li>Edit present bikes and improve the Open Source Dataset.</li>
     </ul>
     <button class="github-auth" on:click={navigateToGithub}>
       <IGithub />

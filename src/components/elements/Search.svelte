@@ -15,7 +15,7 @@
     type="text"
     on:input={searchInputChanged}
     class="search__input"
-    placeholder="Seach"
+    placeholder="Search"
   />
 </div>
 
