@@ -27,7 +27,7 @@
     </ul>
     <button class="github-auth" on:click={navigateToGithub}>
       <IGithub />
-      Login with Github
+      <span>Login with Github</span>
     </button>
   </div>
 </div>
@@ -78,5 +78,7 @@
     background-color: #24292E;
     border-radius: $br-md;
     color: white;
+    justify-content: center;
+    align-items: center;
   }
 </style>

@@ -1,1 +1,1 @@
-export const serverURL = "https://api.bike-history.com";
+export const serverURL = "http://localhost:1337";
